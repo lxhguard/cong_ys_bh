@@ -2023,6 +2023,13 @@
       font-size: 13px;
     }
 
+    .c-edu__head {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 12px 16px;
+    }
+
     .c-edu__school {
       margin: 0;
       font-size: 18px;
@@ -2030,39 +2037,12 @@
     }
 
     .c-edu__major {
-      margin: 4px 0 0;
+      margin: 0;
       color: var(--muted);
     }
 
     .c-edu__honor {
       margin: 8px 0 0;
-    }
-
-    .c-intern {
-      margin: 8px 0 36px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
-    }
-
-    .c-intern__label {
-      margin: 0;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .c-intern__list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 12px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .c-intern__list li {
-      padding: 4px 10px;
-      border: 1px solid var(--line-strong);
-      font-size: 13px;
     }
 
     .c-footer {
@@ -5653,7 +5633,7 @@
             <span class="c-job__stack-list">React · TypeScript</span>
           </p>
           <ul class="c-job__list">
-            <li>业务：<button class="c-link js-open-modal" type="button" data-modal="joyspace">Joyspace</button> 文档空间。</li>
+            <li>业务：<button class="c-link js-open-modal" type="button" data-modal="joyspace">Joyspace</button> 文档空间业务线，主导需求评审和设计方案落地。</li>
             <li>技术：新人Landing AI助手、 Joyapce业务模块重构</li>
           </ul>
         </div>
@@ -5687,6 +5667,7 @@
           <ul class="c-job__list">
             <li>业务：故事社区 owner，主导KA需求的技术方案与落地。参与番茄小说管理后台开发。</li>
             <li>技术：跨端建设专项 owner，主导落地 Lynx TTML Nodiff、ReactLynx3、PIA。参与大前端（安卓）开发，主要是跨端容器。</li>
+            <!-- <li>离职原因：原团队2-2晋升资源有限，希望加入晋升通道更清晰、业务更核心的平台。</li> -->
           </ul>
         </div>
       </article>
@@ -5717,8 +5698,9 @@
             <span class="c-job__stack-list">React · <button class="c-link js-open-modal" type="button" data-modal="hippy">Hippy</button> · Vue · Koa · TypeScript</span>
           </p>
           <ul class="c-job__list">
-            <li>业务：负责小说福利 tab。参与小说阅读器、听书、小说频道、UGC 社区的开发。</li>
+            <li>业务：负责小说福利tab的需求评审和落地。参与小说阅读器、听书、小说频道、UGC 社区的开发。</li>
             <li>技术：参与团队 npm 管理方案、适老化改造、飞鱼低代码平台共建。</li>
+            <!-- <li>离职原因：在 腾讯PCG 第三波裁员中，整条小说业务线被干掉。</li> -->
           </ul>
         </div>
       </article>
@@ -5771,6 +5753,45 @@
       <article class="c-case">
         <div class="c-case__top">
           <p class="c-case__index">02</p>
+          <p class="c-case__org">京东 · 业务</p>
+        </div>
+        <h3 class="c-case__title">AiTeamSpace · 需求级上下文仓库</h3>
+        <p class="c-case__stack">Git · VitePress · Node Scripts · Cursor Rules · CI · Markdown</p>
+        <div class="c-case__layout">
+          <div>
+            <div class="c-case__block">
+              <p class="c-case__label">背景</p>
+              <p class="c-case__text">PRD / 接口 / 方案 / 用例散落云文档，Agent 读不到，只能截图粘贴；改验收标准靠群里人肉同步。<b>AI 提了单兵效率，没解决「协作上下文怎么给 AI」。</b></p>
+            </div>
+            <div class="c-case__block">
+              <p class="c-case__label">架构选型</p>
+              <p class="c-case__text">在「共享云文档 / 内部知识库平台 / Git 仓库」三条路线中选 <b>Git</b>——AI 可直接读 md、原生 diff 与版本、能挂进 Agent Workspace。</p>
+              <button class="c-case__try js-open-demo" data-demo="demo-ai-teamspace" type="button">体验 DEMO >>></button>
+            </div>
+          </div>
+          <aside class="c-result">
+            <p class="c-result__label">结果</p>
+            <ul class="c-result__list">
+              <li><span class="c-result__num">单一事实源</span>PRD / API / 方案 / 用例同仓</li>
+              <li><span class="c-result__num">自动广播</span>push → 需求群结构化通知</li>
+              <li><span class="c-result__num">双端消费</span>人读站 · AI 读仓</li>
+            </ul>
+          </aside>
+        </div>
+        <aside class="c-note">
+          <p class="c-note__label">核心动作</p>
+          <ul class="c-case__points">
+            <li><b>一需求一档案袋：</b>把 PRD / API 契约 / 前后端方案 / 用例收进同一 Git 目录，Agent 一次检索拿到全量上下文；<code>meta.yaml</code> + <code>decisions.md</code> 记录状态与拍板决策。</li>
+            <li><b>Agent 上下文工程：</b>根 <code>AGENTS.md</code> 只做路由，<code>rules/*.md</code> 按 glob 自动挂载分角色规范，<code>new-req</code> 脚手架一键建档——约束 AI 产出结构化、可评审，避免垃圾文档。</li>
+            <li><b>变更自动广播：</b>push 后脚本算文档 diff（确定性摘要，不调大模型），按 <code>branch→群</code> 路由表通过 IM 机器人发到需求群，替代人肉 @；未配置分支自动跳过。</li>
+            <li><b>防腐机制：</b><code>lint-docs</code> + CI 拦住缺 <code>index.md</code> / 目录不规范；文档站 <code>gen-sidebar</code> 自动生成导航，人读站、AI 读仓，一份内容两个消费方。</li>
+          </ul>
+        </aside>
+      </article>
+
+      <article class="c-case">
+        <div class="c-case__top">
+          <p class="c-case__index">03</p>
           <p class="c-case__org">番茄小说 · 业务 · Owner</p>
         </div>
         <h3 class="c-case__title">短故事社区</h3>
@@ -5809,34 +5830,34 @@
 
       <article class="c-case">
         <div class="c-case__top">
-          <p class="c-case__index">03</p>
+          <p class="c-case__index">04</p>
           <p class="c-case__org">番茄小说 · 技术专项</p>
         </div>
-        <h3 class="c-case__title">ReactLynx3 跨端框架升级与性能优化</h3>
+        <h3 class="c-case__title">RL3 跨端框架迁移专项</h3>
         <p class="c-case__stack">ReactLynx3 · 工程化 · 迁移</p>
         <div class="c-case__layout">
           <div>
             <div class="c-case__block">
               <p class="c-case__label">背景</p>
-              <p class="c-case__text">RL2 的开发体验有明确痛点：不能用函数式组件，还要先攒一套 Lynx 知识。看到 RL3 在抖音搜索落地后的收益，主动发起并主导专项。</p>
+              <p class="c-case__text">RL2 只能写 Class、开发体验差、双端 bug 多；看到抖音搜索业务迁 RL3 后 FMP 明显提升，我判断这条路线值得跟进。<b>主动调研内部 RL3 落地数据、评估迁移成本后发起专项</b>，从「要不要迁」到「怎么迁不翻车」全程负责，推动消息中心、书荒广场等核心页落地。</p>
             </div>
             <div class="c-case__block">
-              <p class="c-case__label">贡献</p>
+              <p class="c-case__label">核心动作</p>
               <ul class="c-case__points">
-                <li>制定并实施迁移 Roadmap、实验方案和风险策略，搭数据看板与异常报警。</li>
-                <li>CssVariableTreeShaking 插件：删掉冗余颜色变量，单页产物平均 −20KB。</li>
-                <li>ESLint 插件：自动检测并一键修复可优化代码，控制产物体积膨胀。</li>
-                <li>沉淀 SwiperAction、ShowMonitor 等组件，以及日夜间、大字号等方法。</li>
-                <li>RL3 开发规范，以及模板 VS Code 插件。单页开发节省 0.5 PD。</li>
+                <li><b>迁移策略：</b>制定分批迁移 Roadmap（存量 14 页 + 新增 7 页）、灰度实验方案与回滚策略；搭 Slardar 数据看板 + FMP/错误率异常报警，迁移期间 0 事故、0 回滚。</li>
+                <li><b>工程基建：</b>针对迁移中暴露的共性问题自研插件链——CssVariableTreeShaking 删冗余颜色变量（单页 −20KB）；ESLint 插件自动检测并一键修复可优化写法，控制产物体积膨胀。</li>
+                <li><b>团队沉淀：</b>统一 RL3 开发规范，沉淀 SwiperAction / ShowMonitor 等公共组件与日夜间、大字号适配方案；做 VS Code 代码模板插件，单页开发节省 0.5pd（后续页面可一键生成，不再重复踩坑。）</li>
               </ul>
             </div>
           </div>
           <aside class="c-result">
             <p class="c-result__label">结果</p>
             <ul class="c-result__list">
-              <li><span class="c-result__num">−180ms / −200ms</span>消息中心、书荒广场 FCP</li>
+              <li><span class="c-result__num">0 事故</span>14 页存量迁移全程灰度可回滚</li>
+              <li><span class="c-result__num">180ms / 200ms</span>消息中心、书荒广场 FCP</li>
               <li><span class="c-result__num">14 + 7</span>RL2 迁移 14 页，新增 RL3 页面 7 个</li>
               <li><span class="c-result__num">32</span>公共组件完成迁移</li>
+              <li><span class="c-result__num">0.5 PD</span>单页开发节省</li>
             </ul>
           </aside>
         </div>
@@ -5844,10 +5865,10 @@
 
       <article class="c-case">
         <div class="c-case__top">
-          <p class="c-case__index">04</p>
+          <p class="c-case__index">05</p>
           <p class="c-case__org">番茄小说 · 技术专项</p>
         </div>
-        <h3 class="c-case__title">Lynx Nodiff 页卡性能优化</h3>
+        <h3 class="c-case__title">Nodiff 迁移与工程化体系建设</h3>
         <p class="c-case__stack">Nodiff · RL3 · 客户端 DSL</p>
         <div class="c-case__layout">
           <div>
@@ -5894,28 +5915,34 @@
 
       <article class="c-case">
         <div class="c-case__top">
-          <p class="c-case__index">05</p>
+          <p class="c-case__index">06</p>
           <p class="c-case__org">番茄小说 · 技术专项</p>
         </div>
-        <h3 class="c-case__title">PIA：性能与迭代效率兼顾的跨端方案</h3>
-        <p class="c-case__stack">React · Worker · NSR · 安卓闭环</p>
+        <h3 class="c-case__title">PIA 秒开方案在书圈与机器人详情页的落地</h3>
+        <p class="c-case__stack">React · Worker · NSR · Snapshot · Slardar</p>
         <div class="c-case__layout">
           <div>
             <div class="c-case__block">
               <p class="c-case__label">背景</p>
-              <p class="c-case__text">书圈指标负向，排除不了首屏 4s 的影响，首屏也不如竞品。社区交互太复杂，不适合迁 Lynx。需要一套基于 React、同时保住性能和迭代效率的方案，选了 PIA。</p>
+              <p class="c-case__text">书圈指标持续负向，定位后确认根因是首屏 4s——这是首屏体验生死线。但书圈交互太复杂，迁不动 Lynx；纯 H5 又压不住渲染成本。<b>我主动立项</b>，在「继续优化 H5 / 迁 Lynx / 上 PIA」三条路线里做技术选型，最终选 PIA 路线并负责从方案设计到上线全链路。</p>
             </div>
             <div class="c-case__block">
-              <p class="c-case__label">选型</p>
-              <p class="c-case__text">PIA Prefetch：客户端开 Worker，与主线程渲染并行。Snapshot 做秒出快照。NSR 由安卓前端闭环开发。</p>
+              <p class="c-case__label">核心动作</p>
+              <ul class="c-case__points">
+                <li><b>方案拍板：</b>分组实测——线上对照 3014ms / Worker 只 prefetch 不渲染反而 3411ms（worker 启动本身有成本）/ Worker 全量 step1-4 压到 2294ms，用数据证明「prefetch 必须配 Snapshot 渲染」才最高效。</li>
+                <li><b>架构设计：</b>设计双入口——<code>pia-prefetch.ts</code> Worker 并行承接 step1-4 请求，<code>globalProps</code> 注入消掉 step3 等待；主线程不等数据，直接拿 Snapshot 直出。</li>
+                <li><b>快照策略：</b>按 <code>forum_id + tab</code> 做 Snapshot 缓存，maxAge 600s（线上数据：1h 复访率 22%、10min 内 18%）</li>
+                <li><b>风险兜底：</b>5s 超时回退 webview 三级降级链路，防止 PIA 本身出问题把页面搞挂；全量 Slardar 监控埋点，上线后可观测。</li>
+                <li><b>团队沉淀：</b>把书圈 + 机器人详情页的落地经验沉淀成「番茄 PIA 接入规范」，后续业务方按规范接入，NSR 生效效率 83%。</li>
+              </ul>
             </div>
           </div>
           <aside class="c-result">
             <p class="c-result__label">结果</p>
             <ul class="c-result__list">
-              <li><span class="c-result__num">+0.07%</span>书圈进 App 7 留，FCP −1.3s</li>
-              <li><span class="c-result__num">−600ms / −107ms</span>NSR 机器人详情页，安卓 / iOS 75 分位 FCP</li>
-              <li><span class="c-result__num">83%</span>NSR 生效率，并输出番茄小说 PIA 规范</li>
+              <li><span class="c-result__num">4s → 2.1s</span>PIA 书圈 FCP（−47%）</li>
+              <li><span class="c-result__num">600ms / 107ms</span>NSR 机器人详情页，安卓 / iOS 75 分位 FCP</li>
+              <li><span class="c-result__num">83%</span>NSR 生效效率，输出团队 PIA 规范</li>
             </ul>
           </aside>
         </div>
@@ -5923,22 +5950,30 @@
 
       <article class="c-case">
         <div class="c-case__top">
-          <p class="c-case__index">06</p>
+          <p class="c-case__index">07</p>
           <p class="c-case__org">腾讯 QQ 浏览器 · 业务</p>
         </div>
-        <h3 class="c-case__title">QQ浏览器小说 · 福利中心</h3>
+        <h3 class="c-case__title">QQ 浏览器小说 · 福利中心</h3>
         <p class="c-case__stack">Hippy · Vue · TypeScript · Koa</p>
         <div class="c-case__layout">
           <div>
             <div class="c-case__block">
-              <p class="c-case__label">做法</p>
-              <p class="c-case__text">负责福利中心的日常迭代和性能。强依赖终端的首屏负反馈，用直出数据纠偏。首屏有效率只有 41%，做 WebView 容器联合优化，再加上首屏请求管制和骨架屏。</p>
+              <p class="c-case__label">背景</p>
+              <p class="c-case__text">福利中心强依赖终端首屏表现，接入后发现首屏有效率只有 <b>41%</b>——一半用户等不到有效内容就走了。2360ms 的首屏耗时里，前端、WebView 容器、网络请求各占一段，单靠业务页面前端自己搞不定。</p>
+            </div>
+            <div class="c-case__block">
+              <p class="c-case__label">核心动作</p>
+              <ul class="c-case__points">
+                <li><b>数据定位：</b>用直出数据做负反馈纠偏，把首屏耗时拆到容器启动 / 白屏 / 请求 / 渲染四段，定位到瓶颈不只在业务代码。</li>
+                <li><b>跨端协同：</b>主动拉 WebView 容器侧联合优化（容器预加载 / 预热），把容器启动这段时间从链路里压掉。</li>
+                <li><b>前端侧治理：</b>首屏请求管制（非首屏请求延后）+ 骨架屏直出，白屏期间有内容占位而不是干等。</li>
+              </ul>
             </div>
           </div>
           <aside class="c-result">
             <p class="c-result__label">结果</p>
             <ul class="c-result__list">
-              <li><span class="c-result__num">2360 → 918ms</span>首屏耗时</li>
+              <li><span class="c-result__num">2360 → 918ms</span>首屏总耗时</li>
               <li><span class="c-result__num">−56%</span>白屏时间</li>
               <li><span class="c-result__num">82%</span>秒开率</li>
             </ul>
@@ -5980,21 +6015,14 @@
       <article class="c-edu">
         <p class="c-edu__time">2017.9 — 2021.6</p>
         <div>
-          <h3 class="c-edu__school">西安邮电大学</h3>
-          <p class="c-edu__major">网络工程 · 本科</p>
-          <p class="c-edu__honor">大一、大二专业第一。通过英语四级、六级。校三好学生、优秀班长、优秀毕业生。</p>
+          <div class="c-edu__head">
+            <h3 class="c-edu__school">西安邮电大学</h3>
+            <p class="c-edu__major">网络工程 · 本科</p>
+          </div>
+          <p class="c-edu__honor">大学实习：2019.8 滴滴网约车 ， 2019.11 小米官网， 2020.3 腾讯直播，2020.6百度凤巢，2020.9 QQ浏览器 </p>
+          <p class="c-edu__honor">学业：连续两年专业第一，英语六级， 荣誉称号若干（校三好学生，优秀班长，优秀党员...）</p>
         </div>
       </article>
-      <div class="c-intern">
-        <p class="c-intern__label">大学实习</p>
-        <ul class="c-intern__list">
-          <li>滴滴网约车</li>
-          <li>小米互联网一部</li>
-          <li>百度凤巢</li>
-          <li>腾讯 PCG 腾讯直播</li>
-          <li>腾讯 PCG QQ浏览器小说</li>
-        </ul>
-      </div>
     </section>
   </main>
 
