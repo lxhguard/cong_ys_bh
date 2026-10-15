@@ -115,6 +115,7 @@
     }
 
     .c-topbar__print {
+      display: inline-block;
       border: 1px solid var(--line-strong);
       background: transparent;
       color: var(--ink);
@@ -123,6 +124,7 @@
       padding: 6px 12px;
       cursor: pointer;
       white-space: nowrap;
+      text-decoration: none;
     }
 
     .c-topbar__print:hover,
@@ -5494,7 +5496,7 @@
           <button class="c-topbar__tab is-active js-tab" type="button" data-tab="resume">简历</button>
           <button class="c-topbar__tab js-tab" type="button" data-tab="time">工作时间线</button>
         </nav>
-        <button class="c-topbar__print js-print" type="button">导出 PDF</button>
+        <a class="c-topbar__print" href="./jianli.pdf" download="刘鑫海-前端开发.pdf">导出 PDF</a>
       </div>
     </div>
   </header>
@@ -9145,7 +9147,6 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
 
   <script>
     (function () {
-      var printButton = document.querySelector(".js-print");
       var workspace = document.querySelector(".js-workspace");
       var tabButtons = Array.prototype.slice.call(document.querySelectorAll(".js-tab"));
       var views = Array.prototype.slice.call(document.querySelectorAll(".js-view"));
@@ -9297,12 +9298,6 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
         });
       });
 
-      if (printButton) {
-        printButton.addEventListener("click", function () {
-          if (currentTab !== "resume") setTab("resume");
-          window.print();
-        });
-      }
       window.addEventListener("scroll", syncActiveToc, { passive: true });
       window.addEventListener("hashchange", applyHashRoute);
       applyHashRoute();
