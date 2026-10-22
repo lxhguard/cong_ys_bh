@@ -480,6 +480,14 @@
       font-size: 11.5px;
     }
 
+    .c-docs__outline-link.is-h4,
+    .c-docs__outline-link.is-h5,
+    .c-docs__outline-link.is-h6 {
+      padding-left: 36px;
+      font-size: 11.5px;
+      color: rgba(28, 25, 22, 0.62);
+    }
+
     .c-docs__article-head {
       flex: none;
       padding: 22px 36px 14px;
@@ -521,7 +529,7 @@
       line-height: 1.85;
     }
 
-    .c-docs__article-body :is(h1, h2, h3) {
+    .c-docs__article-body :is(h1, h2, h3, h4, h5, h6) {
       scroll-margin-top: 16px;
     }
 
@@ -531,7 +539,10 @@
 
     .c-docs__article-body h1,
     .c-docs__article-body h2,
-    .c-docs__article-body h3 {
+    .c-docs__article-body h3,
+    .c-docs__article-body h4,
+    .c-docs__article-body h5,
+    .c-docs__article-body h6 {
       margin: 1.35em 0 0.55em;
       font-family: var(--serif);
       font-weight: 600;
@@ -545,6 +556,155 @@
       border-bottom: 1px solid rgba(28, 25, 22, 0.08);
     }
     .c-docs__article-body h3 { font-size: 16px; }
+    .c-docs__article-body h4 { font-size: 14.5px; margin-top: 1.1em; }
+    .c-docs__article-body h5 { font-size: 13.5px; margin-top: 1em; }
+    .c-docs__article-body h6 { font-size: 13px; margin-top: 1em; color: rgba(28, 25, 22, 0.72); }
+
+    .c-docs__table-card {
+      margin: 0 0 18px;
+      border: 1px solid #e8eaed;
+      border-radius: 12px;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(28, 25, 22, 0.03);
+    }
+
+    .c-docs__table-card.is-expanded {
+      position: fixed;
+      inset: 40px;
+      z-index: 80;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 24px 64px rgba(28, 25, 22, 0.18);
+    }
+
+    .c-docs__table-card.is-expanded .c-docs__table-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+    }
+
+    .c-docs__table-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      background: rgba(28, 25, 22, 0.28);
+    }
+
+    .c-docs__table-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 40px;
+      padding: 0 12px 0 14px;
+      background: #f5f6f8;
+      border-bottom: 1px solid #eceef1;
+    }
+
+    .c-docs__table-label {
+      color: #646a73;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .c-docs__table-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .c-docs__table-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #8f959e;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .c-docs__table-action:hover {
+      background: rgba(28, 25, 22, 0.06);
+      color: #373c43;
+    }
+
+    .c-docs__table-action:focus {
+      outline: none;
+    }
+
+    .c-docs__table-action:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+
+    .c-docs__table-action svg {
+      display: block;
+      width: 15px;
+      height: 15px;
+    }
+
+    .c-docs__table-action.is-ok {
+      color: #1d5c3e;
+    }
+
+    .c-docs__table-scroll {
+      overflow-x: auto;
+      background: #fff;
+    }
+
+    .c-docs__table {
+      width: 100%;
+      min-width: 520px;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: #1f2329;
+    }
+
+    .c-docs__table th,
+    .c-docs__table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #e8eaed;
+      border-right: 1px solid #e8eaed;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .c-docs__table th:last-child,
+    .c-docs__table td:last-child {
+      border-right: 0;
+    }
+
+    .c-docs__table th {
+      background: #fff;
+      font-weight: 700;
+      color: #1f2329;
+      white-space: nowrap;
+      border-bottom-color: #e0e2e6;
+    }
+
+    .c-docs__table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .c-docs__table code {
+      font-family: var(--mono);
+      font-size: 0.9em;
+      padding: 0.12em 0.38em;
+      border-radius: 4px;
+      background: #f2f3f5;
+      color: #373c43;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
 
     .c-docs__article-body p {
       margin: 0 0 14px;
@@ -585,17 +745,72 @@
       margin-bottom: 0;
     }
 
+    .c-docs__code-card {
+      margin: 0 0 18px;
+      border: 1px solid #e8eaed;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(28, 25, 22, 0.03);
+    }
+
+    .c-docs__code-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 40px;
+      padding: 0 10px 0 14px;
+      background: #f5f6f8;
+      border-bottom: 1px solid #eceef1;
+    }
+
+    .c-docs__code-lang {
+      color: #646a73;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .c-docs__code-copy {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #8f959e;
+      cursor: pointer;
+    }
+
+    .c-docs__code-copy:hover {
+      background: rgba(28, 25, 22, 0.06);
+      color: #373c43;
+    }
+
+    .c-docs__code-copy svg {
+      display: block;
+      width: 15px;
+      height: 15px;
+    }
+
+    .c-docs__code-copy.is-ok {
+      color: #1d5c3e;
+    }
+
     .c-docs__pre {
-      margin: 0 0 16px;
-      padding: 14px 16px;
+      margin: 0;
+      padding: 16px 18px;
       overflow: auto;
-      border: 1px solid rgba(28, 25, 22, 0.08);
-      border-radius: 10px;
-      background: #1c1916;
-      color: #f6f3ec;
+      border: 0;
+      border-radius: 0;
+      background: #fafbfc;
+      color: #1f2329;
       font-family: var(--mono);
-      font-size: 12.5px;
-      line-height: 1.55;
+      font-size: 13px;
+      line-height: 1.65;
     }
 
     .c-docs__pre code {
@@ -9688,7 +9903,8 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
       var DOC_ROOT_NAME = "markdown";
       var DOCS_ICON_CHEVRON = '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M4.7 6.3a.75.75 0 0 1 1.06 0L8 8.54l2.24-2.24a.75.75 0 1 1 1.06 1.06l-2.77 2.77a.75.75 0 0 1-1.06 0L4.7 7.36a.75.75 0 0 1 0-1.06Z"/></svg>';
       var DOCS_ICON_FOLDER = '<svg viewBox="0 0 16 16" fill="none"><path d="M1.5 3.75A1.25 1.25 0 0 1 2.75 2.5h3.05l1.05 1.2h6.45A1.25 1.25 0 0 1 14.5 4.95v7.3A1.25 1.25 0 0 1 13.25 13.5H2.75A1.25 1.25 0 0 1 1.5 12.25V3.75Z" fill="#c4a574"/><path d="M1.5 6.4h13v5.85c0 .69-.56 1.25-1.25 1.25H2.75c-.69 0-1.25-.56-1.25-1.25V6.4Z" fill="#d8b88a"/></svg>';
-      var DOCS_ICON_MD = '<svg viewBox="0 0 16 16" fill="none"><rect x="2.2" y="1.8" width="11.6" height="12.4" rx="2" fill="#a33b24"/><path d="M4.4 10.6 5.55 5.6h1l-.7 3.05h.04L7.15 5.6h.95L6.85 10.6H5.8l.75-3.2h-.04L5.4 10.6H4.4Zm4.55 0V5.6h2.2c.48 0 .84.1 1.06.33.23.22.34.53.34.93 0 .3-.07.55-.22.75-.14.2-.35.33-.62.39v.04c.34.05.6.2.78.43.19.23.28.52.28.87 0 .43-.13.76-.4 1-.26.25-.64.37-1.14.37H8.95Zm.95-2.9h1.05c.24 0 .42-.06.54-.18.12-.12.18-.29.18-.5 0-.23-.06-.4-.19-.51-.12-.12-.3-.17-.55-.17H9.9v1.36Zm0 2.1h1.18c.28 0 .49-.06.63-.2.15-.13.22-.32.22-.57 0-.25-.08-.43-.23-.56-.15-.13-.36-.2-.64-.2H9.9v1.53Z" fill="#fff7f2"/></svg>';
+      var DOCS_ICON_MD =
+        '<svg viewBox="0 0 16 16" fill="none"><rect x="2.2" y="1.8" width="11.6" height="12.4" rx="2" fill="#a33b24"/><text x="8" y="10.55" text-anchor="middle" fill="#fff7f2" font-size="5.8" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif" font-weight="700" letter-spacing="0.2">MD</text></svg>';
       var DOCS_ICON_HTML = '<svg viewBox="0 0 16 16" fill="none"><rect x="2.2" y="1.8" width="11.6" height="12.4" rx="2" fill="#2f6f5e"/><path d="M5.1 8.1 6.35 5.7h1.05L6.05 8.1l1.4 2.45H6.4L5.1 8.1Zm5.8 0L9.65 5.7H8.6L9.95 8.1 8.55 10.55h1.1L10.9 8.1Z" fill="#eef7f3"/></svg>';
 
       function escapeDocsHtml(text) {
@@ -9740,6 +9956,15 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
         return /html/i.test(info) && /renderer/i.test(info);
       }
 
+      var DOCS_ICON_COPY =
+        '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="7" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"/><path d="M3.5 10.5V3.9A1.4 1.4 0 0 1 4.9 2.5h5.1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+      var DOCS_ICON_CHECK =
+        '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.6 8.2 6.5 11.1 12.4 4.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      var DOCS_ICON_DOWNLOAD =
+        '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2.5v7.2M8 9.7 5.4 7.2M8 9.7l2.6-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.2 12.8h9.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+      var DOCS_ICON_EXPAND =
+        '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.2 6.2V3.2h3M12.8 6.2V3.2h-3M3.2 9.8v3h3M12.8 9.8v3h-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
       function renderDocsFenceBlock(lang, meta, code) {
         if (isDocsHtmlRendererFence(lang, meta)) {
           // 豆包风格：```html type="renderer" 直接渲染 HTML 预览
@@ -9751,14 +9976,135 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
             "</div>"
           );
         }
-        var label = escapeDocsHtml(lang || "text");
+        var label = escapeDocsHtml(lang || "plaintext");
         return (
-          '<pre class="c-docs__pre" data-lang="' +
+          '<div class="c-docs__code-card">' +
+          '<div class="c-docs__code-toolbar">' +
+          '<span class="c-docs__code-lang">' +
           label +
-          '"><code>' +
+          "</span>" +
+          '<button type="button" class="c-docs__code-copy js-docs-code-copy" title="复制" aria-label="复制代码">' +
+          DOCS_ICON_COPY +
+          "</button>" +
+          "</div>" +
+          '<pre class="c-docs__pre"><code>' +
           escapeDocsHtml(code) +
-          "</code></pre>"
+          "</code></pre>" +
+          "</div>"
         );
+      }
+
+      function flashDocsCopyButton(button) {
+        if (!button) return;
+        if (button._docsCopyTimer) {
+          window.clearTimeout(button._docsCopyTimer);
+        }
+        button.classList.add("is-ok");
+        button.innerHTML = DOCS_ICON_CHECK;
+        button.setAttribute("title", "已复制");
+        button.setAttribute("aria-label", "已复制");
+        button._docsCopyTimer = window.setTimeout(function () {
+          button.classList.remove("is-ok");
+          button.innerHTML = DOCS_ICON_COPY;
+          button.setAttribute("title", "复制");
+          button.setAttribute(
+            "aria-label",
+            button.classList.contains("js-docs-table-copy") ? "复制表格" : "复制代码"
+          );
+          button._docsCopyTimer = null;
+        }, 1600);
+      }
+
+      function copyDocsText(text, button) {
+        var value = String(text || "");
+        var done = function () {
+          flashDocsCopyButton(button);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(value).then(done).catch(function () {
+            fallbackCopyDocsText(value, done);
+          });
+          return;
+        }
+        fallbackCopyDocsText(value, done);
+      }
+
+      function fallbackCopyDocsText(text, done) {
+        var area = document.createElement("textarea");
+        area.value = text;
+        area.setAttribute("readonly", "");
+        area.style.position = "fixed";
+        area.style.left = "-9999px";
+        document.body.appendChild(area);
+        area.select();
+        try {
+          document.execCommand("copy");
+          if (done) done();
+        } catch (err) {
+          // ignore
+        }
+        document.body.removeChild(area);
+      }
+
+      function getDocsTableTsv(table) {
+        if (!table) return "";
+        return Array.prototype.slice
+          .call(table.querySelectorAll("tr"))
+          .map(function (row) {
+            return Array.prototype.slice
+              .call(row.querySelectorAll("th,td"))
+              .map(function (cell) {
+                return String(cell.textContent || "")
+                  .replace(/\s+/g, " ")
+                  .trim();
+              })
+              .join("\t");
+          })
+          .join("\n");
+      }
+
+      function downloadDocsTableCsv(table) {
+        if (!table) return;
+        var rows = Array.prototype.slice.call(table.querySelectorAll("tr")).map(function (row) {
+          return Array.prototype.slice
+            .call(row.querySelectorAll("th,td"))
+            .map(function (cell) {
+              var text = String(cell.textContent || "")
+                .replace(/\s+/g, " ")
+                .trim()
+                .replace(/"/g, '""');
+              return '"' + text + '"';
+            })
+            .join(",");
+        });
+        var blob = new Blob(["\ufeff" + rows.join("\n")], {
+          type: "text/csv;charset=utf-8;"
+        });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement("a");
+        link.href = url;
+        link.download = "table.csv";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }
+
+      function closeDocsTableExpand() {
+        var backdrop = document.querySelector(".js-docs-table-backdrop");
+        var expanded = document.querySelector(".c-docs__table-card.is-expanded");
+        if (expanded) expanded.classList.remove("is-expanded");
+        if (backdrop) backdrop.parentNode.removeChild(backdrop);
+      }
+
+      function expandDocsTableCard(card) {
+        if (!card) return;
+        closeDocsTableExpand();
+        var backdrop = document.createElement("div");
+        backdrop.className = "c-docs__table-backdrop js-docs-table-backdrop";
+        backdrop.addEventListener("click", closeDocsTableExpand);
+        document.body.appendChild(backdrop);
+        card.classList.add("is-expanded");
       }
 
       function hydrateDocsHtmlPreviews(root) {
@@ -9784,6 +10130,141 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
               }
             });
           });
+
+        Array.prototype.slice
+          .call(root.querySelectorAll(".js-docs-code-copy"))
+          .forEach(function (button) {
+            button.addEventListener("click", function () {
+              var card = button.closest(".c-docs__code-card");
+              var codeEl = card && card.querySelector("code");
+              copyDocsText(codeEl ? codeEl.textContent : "", button);
+            });
+          });
+
+        Array.prototype.slice
+          .call(root.querySelectorAll(".js-docs-table-copy"))
+          .forEach(function (button) {
+            button.addEventListener("click", function () {
+              var card = button.closest(".c-docs__table-card");
+              var table = card && card.querySelector("table");
+              copyDocsText(getDocsTableTsv(table), button);
+            });
+          });
+
+        Array.prototype.slice
+          .call(root.querySelectorAll(".js-docs-table-download"))
+          .forEach(function (button) {
+            button.addEventListener("click", function () {
+              var card = button.closest(".c-docs__table-card");
+              var table = card && card.querySelector("table");
+              downloadDocsTableCsv(table);
+            });
+          });
+
+        Array.prototype.slice
+          .call(root.querySelectorAll(".js-docs-table-expand"))
+          .forEach(function (button) {
+            button.addEventListener("click", function () {
+              var card = button.closest(".c-docs__table-card");
+              if (!card) return;
+              if (card.classList.contains("is-expanded")) {
+                closeDocsTableExpand();
+              } else {
+                expandDocsTableCard(card);
+              }
+            });
+          });
+      }
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") closeDocsTableExpand();
+      });
+
+      function isDocsTableSepLine(line) {
+        return /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(String(line || "").trim());
+      }
+
+      function isDocsTableRowLine(line) {
+        var text = String(line || "").trim();
+        return text.indexOf("|") !== -1 && /^\|?.+\|/.test(text);
+      }
+
+      function splitDocsTableCells(line) {
+        var text = String(line || "").trim();
+        if (text.charAt(0) === "|") text = text.slice(1);
+        if (text.charAt(text.length - 1) === "|") text = text.slice(0, -1);
+        var cells = [];
+        var current = "";
+        var escaped = false;
+        for (var i = 0; i < text.length; i += 1) {
+          var ch = text.charAt(i);
+          if (escaped) {
+            current += ch;
+            escaped = false;
+            continue;
+          }
+          if (ch === "\\") {
+            escaped = true;
+            continue;
+          }
+          if (ch === "|") {
+            cells.push(current.trim());
+            current = "";
+            continue;
+          }
+          current += ch;
+        }
+        cells.push(current.trim());
+        return cells;
+      }
+
+      function renderDocsTable(headerCells, bodyRows) {
+        var thead =
+          "<thead><tr>" +
+          headerCells
+            .map(function (cell) {
+              return "<th>" + formatDocsInline(cell) + "</th>";
+            })
+            .join("") +
+          "</tr></thead>";
+        var tbody =
+          "<tbody>" +
+          bodyRows
+            .map(function (row) {
+              return (
+                "<tr>" +
+                row
+                  .map(function (cell) {
+                    return "<td>" + formatDocsInline(cell) + "</td>";
+                  })
+                  .join("") +
+                "</tr>"
+              );
+            })
+            .join("") +
+          "</tbody>";
+        return (
+          '<div class="c-docs__table-card">' +
+          '<div class="c-docs__table-toolbar">' +
+          '<span class="c-docs__table-label">表格</span>' +
+          '<div class="c-docs__table-actions">' +
+          '<button type="button" class="c-docs__table-action js-docs-table-copy" title="复制" aria-label="复制表格">' +
+          DOCS_ICON_COPY +
+          "</button>" +
+          '<button type="button" class="c-docs__table-action js-docs-table-download" title="下载" aria-label="下载表格">' +
+          DOCS_ICON_DOWNLOAD +
+          "</button>" +
+          '<button type="button" class="c-docs__table-action js-docs-table-expand" title="全屏" aria-label="全屏查看表格">' +
+          DOCS_ICON_EXPAND +
+          "</button>" +
+          "</div>" +
+          "</div>" +
+          '<div class="c-docs__table-scroll"><table class="c-docs__table">' +
+          thead +
+          tbody +
+          "</table></div>" +
+          "</div>"
+        );
       }
 
       function parseDocsMarkdown(source) {
@@ -9835,7 +10316,9 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
           flushList();
         }
 
-        lines.forEach(function (line) {
+        for (var i = 0; i < lines.length; i += 1) {
+          var line = lines[i];
+
           if (inFence) {
             if (/^```/.test(line)) {
               body.push(renderDocsFenceBlock(fenceLang, fenceMeta, fenceLines.join("\n")));
@@ -9843,10 +10326,10 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
               fenceLang = "";
               fenceMeta = "";
               fenceLines = [];
-              return;
+              continue;
             }
             fenceLines.push(line);
-            return;
+            continue;
           }
 
           var fenceOpen = line.match(/^```([^\s`]*)\s*(.*)$/);
@@ -9856,37 +10339,55 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
             fenceLang = fenceOpen[1] || "";
             fenceMeta = fenceOpen[2] || "";
             fenceLines = [];
-            return;
+            continue;
           }
 
-          var heading = line.match(/^(#{1,3})\s+(.+)\s*$/);
+          var heading = line.match(/^(#{1,6})\s+(.+)\s*$/);
           if (heading) {
             flushBlocks();
             var level = heading[1].length;
             var rawText = heading[2];
             if (level === 1 && !title) {
               title = rawText;
-              return;
+              continue;
             }
             var id = getDocsHeadingId(rawText, usedIds);
             body.push(
               '<h' + level + ' id="' + id + '">' + formatDocsInline(rawText) + "</h" + level + ">"
             );
             outline.push({ id: id, level: level, text: rawText });
-            return;
+            continue;
+          }
+
+          if (
+            i + 1 < lines.length &&
+            isDocsTableRowLine(line) &&
+            isDocsTableSepLine(lines[i + 1])
+          ) {
+            flushBlocks();
+            var headerCells = splitDocsTableCells(line);
+            var tableRows = [];
+            i += 2;
+            while (i < lines.length && isDocsTableRowLine(lines[i]) && !isDocsTableSepLine(lines[i])) {
+              tableRows.push(splitDocsTableCells(lines[i]));
+              i += 1;
+            }
+            i -= 1;
+            body.push(renderDocsTable(headerCells, tableRows));
+            continue;
           }
 
           if (/^---+$/.test(line.trim())) {
             flushBlocks();
             body.push('<hr class="c-docs__hr" />');
-            return;
+            continue;
           }
 
           var quote = line.match(/^>\s?(.*)$/);
           if (quote) {
             flushList();
             quoteBuf.push(quote[1]);
-            return;
+            continue;
           }
 
           var listItem = line.match(/^(\s*)([-*+]|\d+\.)\s+(.+)$/);
@@ -9898,13 +10399,13 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
               listBuf = { ordered: ordered, items: [] };
             }
             listBuf.items.push(listItem[3]);
-            return;
+            continue;
           }
 
           flushBlocks();
-          if (!line.trim()) return;
+          if (!line.trim()) continue;
           body.push("<p>" + formatDocsInline(line) + "</p>");
-        });
+        }
 
         if (inFence) {
           body.push(renderDocsFenceBlock(fenceLang, fenceMeta, fenceLines.join("\n")));
@@ -10076,6 +10577,79 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
         };
       }
 
+      var docsOutlineLocked = false;
+      var docsOutlineLockTimer = null;
+      var DOCS_OUTLINE_MARKER = 56;
+
+      function setActiveDocsOutline(activeLink) {
+        var listEl = document.querySelector(".js-docs-outline-list");
+        if (!listEl) return;
+        Array.prototype.slice
+          .call(listEl.querySelectorAll(".js-docs-outline-link"))
+          .forEach(function (link) {
+            var isActive = link === activeLink;
+            link.classList.toggle("is-active", isActive);
+            if (isActive) {
+              link.setAttribute("aria-current", "true");
+              if (typeof link.scrollIntoView === "function") {
+                link.scrollIntoView({ block: "nearest" });
+              }
+            } else {
+              link.removeAttribute("aria-current");
+            }
+          });
+      }
+
+      function syncActiveDocsOutline() {
+        if (docsOutlineLocked || currentTab !== "docs") return;
+        var bodyEl = document.querySelector(".js-docs-body");
+        var listEl = document.querySelector(".js-docs-outline-list");
+        if (!bodyEl || !listEl) return;
+
+        var links = Array.prototype.slice.call(
+          listEl.querySelectorAll(".js-docs-outline-link")
+        );
+        if (!links.length) return;
+
+        var marker = bodyEl.getBoundingClientRect().top + DOCS_OUTLINE_MARKER;
+        var activeLink = null;
+        var isNearBottom =
+          bodyEl.scrollTop + bodyEl.clientHeight >= bodyEl.scrollHeight - 32;
+
+        links.forEach(function (link) {
+          var id = link.getAttribute("data-docs-anchor");
+          var heading = id ? document.getElementById(id) : null;
+          if (!heading) return;
+          if (heading.getBoundingClientRect().top <= marker) {
+            activeLink = link;
+          }
+        });
+
+        if (isNearBottom) {
+          activeLink = links[links.length - 1];
+        } else if (!activeLink) {
+          activeLink = links[0];
+        }
+
+        setActiveDocsOutline(activeLink);
+      }
+
+      function lockDocsOutlineSync(ms) {
+        docsOutlineLocked = true;
+        if (docsOutlineLockTimer) window.clearTimeout(docsOutlineLockTimer);
+        docsOutlineLockTimer = window.setTimeout(function () {
+          docsOutlineLocked = false;
+          syncActiveDocsOutline();
+        }, ms || 900);
+      }
+
+      function bindDocsOutlineScroll() {
+        var bodyEl = document.querySelector(".js-docs-body");
+        if (!bodyEl || bodyEl.getAttribute("data-outline-scroll") === "1") return;
+        bodyEl.setAttribute("data-outline-scroll", "1");
+        bodyEl.addEventListener("scroll", syncActiveDocsOutline, { passive: true });
+      }
+
       function renderDocsOutline(outline) {
         var outlineEl = document.querySelector(".js-docs-outline");
         var listEl = document.querySelector(".js-docs-outline-list");
@@ -10094,7 +10668,14 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
         outlineEl.hidden = false;
         listEl.innerHTML = items
           .map(function (item) {
-            var levelClass = item.level === 2 ? " is-h2" : item.level === 3 ? " is-h3" : "";
+            var levelClass =
+              item.level === 2
+                ? " is-h2"
+                : item.level === 3
+                  ? " is-h3"
+                  : item.level >= 4
+                    ? " is-h4"
+                    : "";
             return (
               '<li>' +
               '<button type="button" class="c-docs__outline-link js-docs-outline-link' +
@@ -10114,12 +10695,14 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
             var id = button.getAttribute("data-docs-anchor");
             var target = id ? document.getElementById(id) : null;
             if (!target) return;
+            lockDocsOutlineSync(1000);
+            setActiveDocsOutline(button);
             target.scrollIntoView({ behavior: "smooth", block: "start" });
-            listEl.querySelectorAll(".js-docs-outline-link").forEach(function (link) {
-              link.classList.toggle("is-active", link === button);
-            });
           });
         });
+
+        bindDocsOutlineScroll();
+        window.setTimeout(syncActiveDocsOutline, 0);
       }
 
       function applyDocSource(path, text) {
@@ -10251,6 +10834,9 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
         if (tab === "resume") {
           syncActiveToc();
         }
+        if (tab === "docs") {
+          window.setTimeout(syncActiveDocsOutline, 0);
+        }
       }
 
       function applyHashRoute() {
@@ -10323,6 +10909,7 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
           if (titleEl) titleEl.textContent = path ? "未找到文档" : "暂无文档";
           if (bodyEl) {
             bodyEl.classList.remove("is-html");
+            bodyEl.scrollTop = 0;
             bodyEl.innerHTML = path
               ? '<p class="c-docs__empty">该文档暂不可用。</p>'
               : '<p class="c-docs__empty">未找到文档数据。请运行 <code>python3 scripts/gen-docs-manifest.py</code>，确保同目录有 <code>docs-data.js</code> 后再打开页面。</p>';
@@ -10334,6 +10921,7 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
         if (pathEl) pathEl.textContent = getDocsDisplayPath(path);
         if (titleEl) titleEl.textContent = doc.title;
         if (bodyEl) {
+          bodyEl.scrollTop = 0;
           if (doc.kind === "html") {
             bodyEl.classList.add("is-html");
             bodyEl.innerHTML =
