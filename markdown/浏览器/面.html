@@ -1,0 +1,50 @@
+<html style="margin:0;padding:0;">
+<title>从输入URL到页面加载：面试链路图</title>
+<div style="width:100%;box-sizing:border-box;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#f4f6f9;padding:22px;border-radius:14px;">
+  <div style="font-size:18px;font-weight:700;color:#1f2933;margin-bottom:4px;">从输入 URL 到页面加载 · 面试链路图</div>
+  <div style="font-size:13px;color:#6b7280;margin-bottom:16px;">8 阶段标准答案 · 每阶段右侧挂追问点；底部为你的实战差异化话术</div>
+  <div style="display:flex;flex-direction:column;gap:0;">
+    <div style="display:flex;align-items:stretch;">
+      <div style="width:150px;min-width:150px;background:#1f2933;color:#fff;border-radius:10px 0 0 0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">① URL 输入</div>
+      <div style="flex:1;background:#fff;border-left:2px solid #d1d5db;padding:10px 14px;font-size:13px;color:#374151;border-radius:0 10px 0 0;">补全协议 · HSTS · 解析 scheme/host/port/path</div>
+    </div>
+    <div style="width:150px;min-width:150px;height:8px;background:transparent;margin-left:75px;border-left:2px dashed #9ca3af;"></div>
+    <div style="display:flex;align-items:stretch;">
+      <div style="width:150px;min-width:150px;background:#3b82f6;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">② DNS 解析</div>
+      <div style="flex:1;background:#fff;border-left:2px solid #d1d5db;padding:10px 14px;font-size:13px;color:#374151;">缓存逐级：浏览器→OS/hosts→本地DNS（递归）→根/顶级/权威（迭代）<span style="background:#eff6ff;color:#1d4ed8;border-radius:4px;padding:1px 6px;margin-left:6px;">追问：递归vs迭代 / UDP53 / 劫持</span></div>
+    </div>
+    <div style="width:150px;min-width:150px;height:8px;background:transparent;margin-left:75px;border-left:2px dashed #9ca3af;"></div>
+    <div style="display:flex;align-items:stretch;">
+      <div style="width:150px;min-width:150px;background:#8b5cf6;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">③ TCP + TLS</div>
+      <div style="flex:1;background:#fff;border-left:2px solid #d1d5db;padding:10px 14px;font-size:13px;color:#374151;">三次握手建连；HTTPS 再走 TLS 握手（证书链校验 → 非对称交换对称密钥，1.3 可 1-RTT）<span style="background:#f5f3ff;color:#6d28d9;border-radius:4px;padding:1px 6px;margin-left:6px;">追问：为什么3次不是2次 / 4次挥手 / 队头阻塞</span></div>
+    </div>
+    <div style="width:150px;min-width:150px;height:8px;background:transparent;margin-left:75px;border-left:2px dashed #9ca3af;"></div>
+    <div style="display:flex;align-items:stretch;">
+      <div style="width:150px;min-width:150px;background:#f76b15;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">④ HTTP 请求</div>
+      <div style="flex:1;background:#fff;border-left:2px solid #d1d5db;padding:10px 14px;font-size:13px;color:#374151;">请求行+请求头+请求体；keep-alive 复用连接 <span style="background:#fff7ed;color:#c2410c;border-radius:4px;padding:1px 6px;margin-left:6px;">追问：GET/POST / 请求头字段 / 正文格式</span></div>
+    </div>
+    <div style="width:150px;min-width:150px;height:8px;background:transparent;margin-left:75px;border-left:2px dashed #9ca3af;"></div>
+    <div style="display:flex;align-items:stretch;">
+      <div style="width:150px;min-width:150px;background:#16a34a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">⑤ 服务器响应</div>
+      <div style="flex:1;background:#fff;border-left:2px solid #d1d5db;padding:10px 14px;font-size:13px;color:#374151;">状态码（2xx/3xx/4xx/5xx）+ 响应头 + 响应体；缓存命中返回 304 或直接强缓存 <span style="background:#f0fdf4;color:#15803d;border-radius:4px;padding:1px 6px;margin-left:6px;">追问：301vs302 / 强vs协商缓存 / ETag</span></div>
+    </div>
+    <div style="width:150px;min-width:150px;height:8px;background:transparent;margin-left:75px;border-left:2px dashed #9ca3af;"></div>
+    <div style="display:flex;align-items:stretch;">
+      <div style="width:150px;min-width:150px;background:#e5484d;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">⑥ 解析渲染</div>
+      <div style="flex:1;background:#fff;border-left:2px solid #d1d5db;padding:10px 14px;font-size:13px;color:#374151;">DOM + CSSOM → Render Tree → Layout → Paint → Composite；JS 阻塞，async/defer 控制；preload scanner 预下载 <span style="background:#fef2f2;color:#b91c1c;border-radius:4px;padding:1px 6px;margin-left:6px;">追问：回流优化 / 宏微任务 / asyncvsdefer</span></div>
+    </div>
+    <div style="width:150px;min-width:150px;height:8px;background:transparent;margin-left:75px;border-left:2px dashed #9ca3af;"></div>
+    <div style="display:flex;align-items:stretch;">
+      <div style="width:150px;min-width:150px;background:#0d9488;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">⑦ 完成事件</div>
+      <div style="flex:1;background:#fff;border-left:2px solid #d1d5db;padding:10px 14px;font-size:13px;color:#374151;">DOMContentLoaded → load；体验指标看 FP / FCP / LCP <span style="background:#f0fdfa;color:#0f766e;border-radius:4px;padding:1px 6px;margin-left:6px;">追问：两事件区别 / LCP 影响因素</span></div>
+    </div>
+    <div style="width:150px;min-width:150px;height:8px;background:transparent;margin-left:75px;border-left:2px dashed #9ca3af;"></div>
+    <div style="display:flex;align-items:stretch;">
+      <div style="width:150px;min-width:150px;background:#475569;color:#fff;border-radius:0 0 0 10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">⑧ 连接管理</div>
+      <div style="flex:1;background:#fff;border-left:2px solid #d1d5db;padding:10px 14px;font-size:13px;color:#374151;border-radius:0 0 10px 0;">Keep-Alive 复用 / HTTP2 多路复用 / HTTP3 QUIC 无队头阻塞；结束后四次挥手</div>
+    </div>
+  </div>
+  <div style="margin-top:16px;background:#fff;border-left:4px solid #d97706;border-radius:8px;padding:12px 14px;font-size:13px;color:#374151;">
+    <span style="font-weight:700;color:#b45309;">你的实战话术落点：</span>⑥渲染 ← 伪 SSR 剥离 pageinit chunk 前置直出（FCP 1.5s→160ms）、DynamicScriptTagPlugin 修 iOS 闪白、batchedUpdates 合并 20 次 setState；④请求 ← PIA Worker 并行预取 + Snapshot（FCP 4s→2.1s）；⑥合成层 ← 低端机治理 142MB→24.1MB（Arco Tabs 节能模式）。答完链路后接这一段，即「背过 → 做过」。
+  </div>
+</div>
