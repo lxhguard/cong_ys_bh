@@ -84,27 +84,33 @@
 
     .c-topbar__actions {
       display: flex;
-      align-items: center;
+      align-items: stretch;
       justify-content: flex-end;
       gap: 12px;
       min-width: 0;
       flex: 1;
+      height: 100%;
     }
 
     .c-topbar__tabs {
       display: flex;
-      align-items: center;
+      align-items: stretch;
       gap: 4px;
+      height: 100%;
     }
 
     .c-topbar__tab {
-      padding: 6px 14px;
+      display: inline-flex;
+      align-items: center;
+      height: 100%;
+      padding: 0 14px;
       border: 0;
       border-bottom: 2px solid transparent;
       background: transparent;
       color: var(--muted);
       font: inherit;
       font-size: 14px;
+      line-height: 1;
       cursor: pointer;
     }
 
@@ -115,7 +121,9 @@
     }
 
     .c-topbar__print {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      align-self: center;
       border: 1px solid var(--line-strong);
       background: transparent;
       color: var(--ink);
@@ -158,9 +166,17 @@
       padding: 0 20px;
     }
 
-    .l-workspace.is-time,
-    .l-workspace.is-docs {
+    .l-workspace.is-time {
       grid-template-columns: minmax(0, var(--sheet));
+    }
+
+    /* 学习页加宽，减少两侧留白（简历/时间线仍用 --sheet） */
+    .l-workspace.is-docs {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 1440px;
+      width: 100%;
+      padding: 0 24px;
+      align-items: stretch;
     }
 
     .l-workspace.is-time .c-toc,
@@ -219,11 +235,13 @@
     }
 
     .c-docs {
-      --docs-sider: 268px;
+      --docs-sider: 280px;
       display: grid;
       grid-template-columns: var(--docs-sider) minmax(0, 1fr);
-      margin: 28px 0 56px;
-      min-height: min(72vh, 720px);
+      /* 固定视口高度：左侧目录/章节常驻，仅正文区域滚动 */
+      height: calc(100vh - 78px);
+      margin: 12px 0 24px;
+      min-height: 480px;
       background: var(--paper);
       border: 1px solid rgba(28, 25, 22, 0.08);
       box-shadow: var(--shadow);
@@ -233,6 +251,7 @@
     .c-docs__sider {
       display: flex;
       flex-direction: column;
+      min-height: 0;
       border-right: 1px solid var(--line);
       background:
         linear-gradient(180deg, #f4efe7 0%, #efe8de 100%);
@@ -278,6 +297,7 @@
       align-items: center;
       gap: 8px;
       width: 100%;
+      min-width: 0;
       margin: 2px 0;
       padding: 8px 10px;
       border: 0;
@@ -347,6 +367,7 @@
     }
 
     .c-docs__label {
+      flex: 1;
       min-width: 0;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -360,15 +381,108 @@
 
     .c-docs__article {
       min-width: 0;
+      min-height: 0;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
       background:
         radial-gradient(1200px 280px at 0% 0%, rgba(163, 59, 36, 0.05), transparent 55%),
         var(--paper);
     }
 
+    .c-docs__article-main {
+      display: grid;
+      grid-template-columns: 176px minmax(0, 1fr);
+      flex: 1;
+      min-height: 0;
+      align-items: stretch;
+      overflow: hidden;
+    }
+
+    .c-docs__article-main.is-plain {
+      grid-template-columns: 1fr;
+    }
+
+    .c-docs__outline {
+      min-height: 0;
+      height: 100%;
+      overflow: auto;
+      padding: 18px 10px 28px 14px;
+      border-right: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .c-docs__outline[hidden] {
+      display: none;
+    }
+
+    .c-docs__outline-title {
+      margin: 0 6px 10px;
+      color: var(--faint);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+    }
+
+    .c-docs__outline-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      min-width: 0;
+    }
+
+    .c-docs__outline-list > li {
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .c-docs__outline-link {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      margin: 1px 0;
+      padding: 5px 8px;
+      border: 0;
+      border-left: 2px solid transparent;
+      border-radius: 0 6px 6px 0;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 12px;
+      line-height: 1.4;
+      text-align: left;
+      cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .c-docs__outline-link:hover {
+      color: var(--ink);
+      background: rgba(28, 25, 22, 0.04);
+    }
+
+    .c-docs__outline-link.is-active {
+      color: var(--accent);
+      font-weight: 600;
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .c-docs__outline-link.is-h2 {
+      padding-left: 16px;
+    }
+
+    .c-docs__outline-link.is-h3 {
+      padding-left: 26px;
+      font-size: 11.5px;
+    }
+
     .c-docs__article-head {
-      padding: 32px 44px 20px;
+      flex: none;
+      padding: 22px 36px 14px;
       border-bottom: 1px solid var(--line);
     }
 
@@ -397,10 +511,18 @@
 
     .c-docs__article-body {
       flex: 1;
-      padding: 28px 44px 56px;
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+      overflow: auto;
+      padding: 24px 36px 48px;
       color: var(--ink);
       font-size: 15.5px;
       line-height: 1.85;
+    }
+
+    .c-docs__article-body :is(h1, h2, h3) {
+      scroll-margin-top: 16px;
     }
 
     .c-docs__article-body > *:first-child {
@@ -429,6 +551,15 @@
       color: rgba(28, 25, 22, 0.88);
     }
 
+    .c-docs__article-body strong {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .c-docs__article-body em {
+      font-style: italic;
+    }
+
     .c-docs__article-body code {
       font-family: var(--mono);
       font-size: 0.88em;
@@ -437,21 +568,123 @@
       border-radius: 4px;
     }
 
+    .c-docs__quote {
+      margin: 0 0 16px;
+      padding: 10px 14px 10px 16px;
+      border-left: 3px solid var(--accent);
+      background: rgba(28, 25, 22, 0.035);
+      border-radius: 0 8px 8px 0;
+      color: rgba(28, 25, 22, 0.9);
+    }
+
+    .c-docs__quote p {
+      margin: 0 0 8px;
+    }
+
+    .c-docs__quote p:last-child {
+      margin-bottom: 0;
+    }
+
+    .c-docs__pre {
+      margin: 0 0 16px;
+      padding: 14px 16px;
+      overflow: auto;
+      border: 1px solid rgba(28, 25, 22, 0.08);
+      border-radius: 10px;
+      background: #1c1916;
+      color: #f6f3ec;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.55;
+    }
+
+    .c-docs__pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      font-size: inherit;
+      white-space: pre;
+    }
+
+    .c-docs__html-preview {
+      margin: 0 0 18px;
+      border: 1px solid rgba(28, 25, 22, 0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(48, 36, 24, 0.06);
+    }
+
+    .c-docs__md-frame {
+      display: block;
+      width: 100%;
+      min-height: 420px;
+      height: 520px;
+      border: 0;
+      background: #fff;
+    }
+
+    .c-docs__hr {
+      margin: 20px 0;
+      border: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .c-docs__list-block {
+      margin: 0 0 14px;
+      padding-left: 1.4em;
+      color: rgba(28, 25, 22, 0.88);
+    }
+
+    .c-docs__list-block li {
+      margin: 4px 0;
+    }
+
     .c-docs__empty {
       margin: 0;
       color: var(--muted);
     }
 
+    .c-docs__article-body.is-html {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .c-docs__frame {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      border: 0;
+      background: #fff;
+    }
+
+    @media (max-width: 1100px) {
+      .c-docs__article-main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .c-docs__outline {
+        height: auto;
+        max-height: 160px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+
     @media (max-width: 800px) {
       .c-docs {
         grid-template-columns: 1fr;
+        grid-template-rows: minmax(180px, 32vh) minmax(0, 1fr);
+        height: calc(100vh - 70px);
         min-height: 0;
       }
 
       .c-docs__sider {
         border-right: 0;
         border-bottom: 1px solid var(--line);
-        max-height: 280px;
+        max-height: none;
       }
 
       .c-docs__article-head,
@@ -2297,12 +2530,17 @@
     .c-footer {
       max-width: var(--sheet);
       margin: -28px auto 40px;
-      padding: 0 4px;
+      padding: 0 24px;
       display: flex;
       justify-content: space-between;
       gap: 12px;
       color: var(--muted);
       font-size: 13px;
+    }
+
+    .c-footer.is-docs {
+      max-width: 1440px;
+      margin-top: 0;
     }
 
     .c-footer a {
@@ -6548,8 +6786,14 @@
         <p class="c-docs__article-path js-docs-path"></p>
         <h1 class="c-docs__article-title js-docs-title">加载中…</h1>
       </header>
-      <div class="c-docs__article-body js-docs-body">
-        <p class="c-docs__empty">正在加载文档目录…</p>
+      <div class="c-docs__article-main js-docs-main is-plain">
+        <nav class="c-docs__outline js-docs-outline" aria-label="文章章节" hidden>
+          <p class="c-docs__outline-title">章节</p>
+          <ul class="c-docs__outline-list js-docs-outline-list"></ul>
+        </nav>
+        <div class="c-docs__article-body js-docs-body">
+          <p class="c-docs__empty">正在加载文档目录…</p>
+        </div>
       </div>
     </article>
   </div>
@@ -9439,11 +9683,13 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
       var DOCS = {};
       var DOC_CONTENTS = {};
       var currentDocsPath = "";
+      var pendingDocsPath = "";
       // 物理目录仍是 markdown/，侧栏只平铺其下内容，不展示 markdown 这一层
       var DOC_ROOT_NAME = "markdown";
       var DOCS_ICON_CHEVRON = '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M4.7 6.3a.75.75 0 0 1 1.06 0L8 8.54l2.24-2.24a.75.75 0 1 1 1.06 1.06l-2.77 2.77a.75.75 0 0 1-1.06 0L4.7 7.36a.75.75 0 0 1 0-1.06Z"/></svg>';
       var DOCS_ICON_FOLDER = '<svg viewBox="0 0 16 16" fill="none"><path d="M1.5 3.75A1.25 1.25 0 0 1 2.75 2.5h3.05l1.05 1.2h6.45A1.25 1.25 0 0 1 14.5 4.95v7.3A1.25 1.25 0 0 1 13.25 13.5H2.75A1.25 1.25 0 0 1 1.5 12.25V3.75Z" fill="#c4a574"/><path d="M1.5 6.4h13v5.85c0 .69-.56 1.25-1.25 1.25H2.75c-.69 0-1.25-.56-1.25-1.25V6.4Z" fill="#d8b88a"/></svg>';
       var DOCS_ICON_MD = '<svg viewBox="0 0 16 16" fill="none"><rect x="2.2" y="1.8" width="11.6" height="12.4" rx="2" fill="#a33b24"/><path d="M4.4 10.6 5.55 5.6h1l-.7 3.05h.04L7.15 5.6h.95L6.85 10.6H5.8l.75-3.2h-.04L5.4 10.6H4.4Zm4.55 0V5.6h2.2c.48 0 .84.1 1.06.33.23.22.34.53.34.93 0 .3-.07.55-.22.75-.14.2-.35.33-.62.39v.04c.34.05.6.2.78.43.19.23.28.52.28.87 0 .43-.13.76-.4 1-.26.25-.64.37-1.14.37H8.95Zm.95-2.9h1.05c.24 0 .42-.06.54-.18.12-.12.18-.29.18-.5 0-.23-.06-.4-.19-.51-.12-.12-.3-.17-.55-.17H9.9v1.36Zm0 2.1h1.18c.28 0 .49-.06.63-.2.15-.13.22-.32.22-.57 0-.25-.08-.43-.23-.56-.15-.13-.36-.2-.64-.2H9.9v1.53Z" fill="#fff7f2"/></svg>';
+      var DOCS_ICON_HTML = '<svg viewBox="0 0 16 16" fill="none"><rect x="2.2" y="1.8" width="11.6" height="12.4" rx="2" fill="#2f6f5e"/><path d="M5.1 8.1 6.35 5.7h1.05L6.05 8.1l1.4 2.45H6.4L5.1 8.1Zm5.8 0L9.65 5.7H8.6L9.95 8.1 8.55 10.55h1.1L10.9 8.1Z" fill="#eef7f3"/></svg>';
 
       function escapeDocsHtml(text) {
         return String(text)
@@ -9453,29 +9699,250 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
           .replace(/"/g, "&quot;");
       }
 
+      function isDocsHtmlPath(path) {
+        return /\.html?$/i.test(String(path || ""));
+      }
+
+      function getDocsFileLabel(name) {
+        return String(name || "").replace(/\.(md|html?)$/i, "");
+      }
+
+      function getDocsHeadingId(text, usedIds) {
+        var base = String(text || "")
+          .trim()
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^\w\u4e00-\u9fff-]/g, "");
+        if (!base) base = "section";
+        var id = "docs-" + base;
+        var n = 1;
+        while (usedIds[id]) {
+          n += 1;
+          id = "docs-" + base + "-" + n;
+        }
+        usedIds[id] = true;
+        return id;
+      }
+
+      function formatDocsInline(text) {
+        var s = escapeDocsHtml(text);
+        // 先处理行内代码，避免内部 * 被当成强调
+        s = s.replace(/`([^`\n]+)`/g, "<code>$1</code>");
+        // **加粗**
+        s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+        // *斜体*（避开已处理的 **）
+        s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<em>$2</em>");
+        return s;
+      }
+
+      function isDocsHtmlRendererFence(lang, meta) {
+        var info = String(lang || "") + " " + String(meta || "");
+        return /html/i.test(info) && /renderer/i.test(info);
+      }
+
+      function renderDocsFenceBlock(lang, meta, code) {
+        if (isDocsHtmlRendererFence(lang, meta)) {
+          // 豆包风格：```html type="renderer" 直接渲染 HTML 预览
+          return (
+            '<div class="c-docs__html-preview">' +
+            '<iframe class="c-docs__md-frame" title="HTML 预览" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals" data-srcdoc="' +
+            encodeURIComponent(code) +
+            '"></iframe>' +
+            "</div>"
+          );
+        }
+        var label = escapeDocsHtml(lang || "text");
+        return (
+          '<pre class="c-docs__pre" data-lang="' +
+          label +
+          '"><code>' +
+          escapeDocsHtml(code) +
+          "</code></pre>"
+        );
+      }
+
+      function hydrateDocsHtmlPreviews(root) {
+        if (!root) return;
+        Array.prototype.slice
+          .call(root.querySelectorAll("iframe[data-srcdoc]"))
+          .forEach(function (frame) {
+            var encoded = frame.getAttribute("data-srcdoc") || "";
+            try {
+              frame.srcdoc = decodeURIComponent(encoded);
+            } catch (err) {
+              frame.srcdoc = "<p>预览加载失败</p>";
+            }
+            frame.removeAttribute("data-srcdoc");
+            frame.addEventListener("load", function () {
+              try {
+                var doc = frame.contentDocument;
+                if (!doc || !doc.body) return;
+                var nextHeight = Math.max(280, doc.body.scrollHeight + 28);
+                frame.style.height = nextHeight + "px";
+              } catch (err) {
+                // ignore cross-frame measure failures
+              }
+            });
+          });
+      }
+
       function parseDocsMarkdown(source) {
         var lines = String(source || "").replace(/\r\n/g, "\n").split("\n");
         var title = "";
         var body = [];
+        var outline = [];
+        var usedIds = {};
+        var quoteBuf = [];
+        var listBuf = null;
+        var inFence = false;
+        var fenceLang = "";
+        var fenceMeta = "";
+        var fenceLines = [];
+
+        function flushQuote() {
+          if (!quoteBuf.length) return;
+          var inner = quoteBuf
+            .map(function (part) {
+              return part ? "<p>" + formatDocsInline(part) + "</p>" : "";
+            })
+            .filter(Boolean)
+            .join("");
+          body.push('<blockquote class="c-docs__quote">' + (inner || "<p></p>") + "</blockquote>");
+          quoteBuf = [];
+        }
+
+        function flushList() {
+          if (!listBuf) return;
+          var tag = listBuf.ordered ? "ol" : "ul";
+          body.push(
+            '<' +
+              tag +
+              ' class="c-docs__list-block">' +
+              listBuf.items
+                .map(function (item) {
+                  return "<li>" + formatDocsInline(item) + "</li>";
+                })
+                .join("") +
+              "</" +
+              tag +
+              ">"
+          );
+          listBuf = null;
+        }
+
+        function flushBlocks() {
+          flushQuote();
+          flushList();
+        }
+
         lines.forEach(function (line) {
-          var heading = line.match(/^(#{1,3})\s+(.+)\s*$/);
-          if (heading) {
-            var level = heading[1].length;
-            var text = escapeDocsHtml(heading[2]);
-            if (level === 1 && !title) {
-              title = heading[2];
+          if (inFence) {
+            if (/^```/.test(line)) {
+              body.push(renderDocsFenceBlock(fenceLang, fenceMeta, fenceLines.join("\n")));
+              inFence = false;
+              fenceLang = "";
+              fenceMeta = "";
+              fenceLines = [];
               return;
             }
-            body.push("<h" + level + ">" + text + "</h" + level + ">");
+            fenceLines.push(line);
             return;
           }
+
+          var fenceOpen = line.match(/^```([^\s`]*)\s*(.*)$/);
+          if (fenceOpen) {
+            flushBlocks();
+            inFence = true;
+            fenceLang = fenceOpen[1] || "";
+            fenceMeta = fenceOpen[2] || "";
+            fenceLines = [];
+            return;
+          }
+
+          var heading = line.match(/^(#{1,3})\s+(.+)\s*$/);
+          if (heading) {
+            flushBlocks();
+            var level = heading[1].length;
+            var rawText = heading[2];
+            if (level === 1 && !title) {
+              title = rawText;
+              return;
+            }
+            var id = getDocsHeadingId(rawText, usedIds);
+            body.push(
+              '<h' + level + ' id="' + id + '">' + formatDocsInline(rawText) + "</h" + level + ">"
+            );
+            outline.push({ id: id, level: level, text: rawText });
+            return;
+          }
+
+          if (/^---+$/.test(line.trim())) {
+            flushBlocks();
+            body.push('<hr class="c-docs__hr" />');
+            return;
+          }
+
+          var quote = line.match(/^>\s?(.*)$/);
+          if (quote) {
+            flushList();
+            quoteBuf.push(quote[1]);
+            return;
+          }
+
+          var listItem = line.match(/^(\s*)([-*+]|\d+\.)\s+(.+)$/);
+          if (listItem) {
+            flushQuote();
+            var ordered = /^\d+\./.test(listItem[2]);
+            if (!listBuf || listBuf.ordered !== ordered) {
+              flushList();
+              listBuf = { ordered: ordered, items: [] };
+            }
+            listBuf.items.push(listItem[3]);
+            return;
+          }
+
+          flushBlocks();
           if (!line.trim()) return;
-          body.push("<p>" + escapeDocsHtml(line) + "</p>");
+          body.push("<p>" + formatDocsInline(line) + "</p>");
         });
+
+        if (inFence) {
+          body.push(renderDocsFenceBlock(fenceLang, fenceMeta, fenceLines.join("\n")));
+        }
+        flushBlocks();
+
         return {
+          kind: "md",
           title: title || "文档",
-          bodyHtml: body.length ? body.join("") : '<p class="c-docs__empty">（空文档）</p>'
+          bodyHtml: body.length ? body.join("") : '<p class="c-docs__empty">（空文档）</p>',
+          rawHtml: "",
+          outline: outline
         };
+      }
+
+      function parseDocsHtml(source, path) {
+        var html = String(source || "");
+        var titleMatch = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+        var title = titleMatch
+          ? titleMatch[1].replace(/<[^>]+>/g, "").trim()
+          : "";
+        if (!title) {
+          title = getDocsFileLabel(String(path).split("/").pop() || path) || "HTML";
+        }
+        return {
+          kind: "html",
+          title: title,
+          bodyHtml: "",
+          rawHtml: html,
+          outline: []
+        };
+      }
+
+      function parseDocsSource(path, source) {
+        if (isDocsHtmlPath(path)) {
+          return parseDocsHtml(source, path);
+        }
+        return parseDocsMarkdown(source);
       }
 
       function getDocsDisplayPath(path) {
@@ -9534,17 +10001,52 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
             return a.name.localeCompare(b.name);
           })
           .forEach(function (file) {
-            var label = String(file.name || "").replace(/\.md$/i, "");
+            var label = getDocsFileLabel(file.name);
+            var icon = isDocsHtmlPath(file.path) ? DOCS_ICON_HTML : DOCS_ICON_MD;
             html +=
               '<li class="c-docs__file" role="treeitem">' +
               '<button class="c-docs__row js-docs-file" type="button" data-doc="' + escapeDocsHtml(file.path) + '">' +
               '<span class="c-docs__spacer" aria-hidden="true"></span>' +
-              '<span class="c-docs__icon" aria-hidden="true">' + DOCS_ICON_MD + "</span>" +
+              '<span class="c-docs__icon" aria-hidden="true">' + icon + "</span>" +
               '<span class="c-docs__label">' + escapeDocsHtml(label) + "</span>" +
               "</button>" +
               "</li>";
           });
         return html;
+      }
+
+      function encodeDocsHashPath(path) {
+        return String(path || "")
+          .split("/")
+          .map(function (segment) {
+            return encodeURIComponent(segment);
+          })
+          .join("/");
+      }
+
+      function decodeDocsHashPath(encoded) {
+        return String(encoded || "")
+          .split("/")
+          .map(function (segment) {
+            try {
+              return decodeURIComponent(segment);
+            } catch (err) {
+              return segment;
+            }
+          })
+          .join("/");
+      }
+
+      function getDocsPathFromHash() {
+        var hash = getHashId();
+        if (hash.indexOf("docs/") === 0) {
+          return decodeDocsHashPath(hash.slice(5));
+        }
+        return "";
+      }
+
+      function isDocsHash(hash) {
+        return hash === TAB_HASH.docs || hash.indexOf("docs/") === 0;
       }
 
       function bindDocsTreeEvents(treeEl) {
@@ -9566,13 +10068,62 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
       function placeholderDocFromPath(path) {
         var name = String(path).split("/").pop() || path;
         return {
-          title: name.replace(/\.md$/i, "") || name,
-          bodyHtml: '<p class="c-docs__empty">文档加载中…</p>'
+          kind: isDocsHtmlPath(path) ? "html" : "md",
+          title: getDocsFileLabel(name) || name,
+          bodyHtml: '<p class="c-docs__empty">文档加载中…</p>',
+          rawHtml: "",
+          outline: []
         };
       }
 
+      function renderDocsOutline(outline) {
+        var outlineEl = document.querySelector(".js-docs-outline");
+        var listEl = document.querySelector(".js-docs-outline-list");
+        var mainEl = document.querySelector(".js-docs-main");
+        if (!outlineEl || !listEl || !mainEl) return;
+
+        var items = Array.isArray(outline) ? outline : [];
+        if (!items.length) {
+          outlineEl.hidden = true;
+          listEl.innerHTML = "";
+          mainEl.classList.add("is-plain");
+          return;
+        }
+
+        mainEl.classList.remove("is-plain");
+        outlineEl.hidden = false;
+        listEl.innerHTML = items
+          .map(function (item) {
+            var levelClass = item.level === 2 ? " is-h2" : item.level === 3 ? " is-h3" : "";
+            return (
+              '<li>' +
+              '<button type="button" class="c-docs__outline-link js-docs-outline-link' +
+              levelClass +
+              '" data-docs-anchor="' +
+              escapeDocsHtml(item.id) +
+              '">' +
+              escapeDocsHtml(item.text) +
+              "</button>" +
+              "</li>"
+            );
+          })
+          .join("");
+
+        Array.prototype.slice.call(listEl.querySelectorAll(".js-docs-outline-link")).forEach(function (button) {
+          button.addEventListener("click", function () {
+            var id = button.getAttribute("data-docs-anchor");
+            var target = id ? document.getElementById(id) : null;
+            if (!target) return;
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+            listEl.querySelectorAll(".js-docs-outline-link").forEach(function (link) {
+              link.classList.toggle("is-active", link === button);
+            });
+          });
+        });
+      }
+
       function applyDocSource(path, text) {
-        DOCS[path] = parseDocsMarkdown(text);
+        DOCS[path] = parseDocsSource(path, text);
         if (currentDocsPath === path) {
           setDocsFile(path);
         }
@@ -9585,7 +10136,7 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
         DOCS = {};
         paths.forEach(function (path) {
           if (DOC_CONTENTS[path] != null) {
-            DOCS[path] = parseDocsMarkdown(DOC_CONTENTS[path]);
+            DOCS[path] = parseDocsSource(path, DOC_CONTENTS[path]);
           } else {
             DOCS[path] = placeholderDocFromPath(path);
           }
@@ -9595,11 +10146,16 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
         bindDocsTreeEvents(treeEl);
 
         if (!paths.length) {
-          setDocsFile("");
+          pendingDocsPath = "";
+          setDocsFile("", { syncHash: false });
           return;
         }
 
-        setDocsFile(paths[0]);
+        var fromHash = pendingDocsPath || getDocsPathFromHash();
+        pendingDocsPath = "";
+        var initialPath =
+          fromHash && paths.indexOf(fromHash) !== -1 ? fromHash : paths[0];
+        setDocsFile(initialPath, { syncHash: false });
 
         paths.forEach(function (path) {
           if (DOC_CONTENTS[path] != null) return;
@@ -9656,6 +10212,11 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
 
       function syncTabHash(tab) {
         var nextHash = TAB_HASH[tab] || TAB_HASH.resume;
+        if (tab === "docs") {
+          nextHash = currentDocsPath
+            ? "docs/" + encodeDocsHashPath(currentDocsPath)
+            : TAB_HASH.docs;
+        }
         if (getHashId() === nextHash) return;
         if (history.replaceState) {
           history.replaceState(null, "", "#" + nextHash);
@@ -9680,6 +10241,10 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
           workspace.classList.toggle("is-time", tab === "time");
           workspace.classList.toggle("is-docs", tab === "docs");
         }
+        var footer = document.querySelector(".js-footer");
+        if (footer) {
+          footer.classList.toggle("is-docs", tab === "docs");
+        }
         if (opts.syncHash !== false) {
           syncTabHash(tab);
         }
@@ -9695,8 +10260,16 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
           window.scrollTo({ top: 0 });
           return;
         }
-        if (hash === TAB_HASH.docs) {
+        if (isDocsHash(hash)) {
+          var docsPath = getDocsPathFromHash();
           setTab("docs", { syncHash: false });
+          if (docsPath) {
+            if (DOCS[docsPath]) {
+              setDocsFile(docsPath, { syncHash: false });
+            } else {
+              pendingDocsPath = docsPath;
+            }
+          }
           window.scrollTo({ top: 0 });
           return;
         }
@@ -9711,7 +10284,8 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
         }, 0);
       }
 
-      function setDocsFile(path) {
+      function setDocsFile(path, options) {
+        var opts = options || {};
         currentDocsPath = path || "";
         var doc = path ? DOCS[path] : null;
         var pathEl = document.querySelector(".js-docs-path");
@@ -9724,25 +10298,60 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
           button.classList.toggle("is-active", isActive);
           if (isActive) {
             button.setAttribute("aria-current", "page");
+            var folder = button.closest(".c-docs__folder");
+            while (folder) {
+              folder.classList.add("is-open");
+              folder.setAttribute("aria-expanded", "true");
+              folder =
+                folder.parentElement &&
+                folder.parentElement.closest(".c-docs__folder");
+            }
+            if (typeof button.scrollIntoView === "function") {
+              button.scrollIntoView({ block: "nearest" });
+            }
           } else {
             button.removeAttribute("aria-current");
           }
         });
 
+        if (opts.syncHash !== false && currentTab === "docs") {
+          syncTabHash("docs");
+        }
+
         if (!doc) {
           if (pathEl) pathEl.textContent = path || "";
           if (titleEl) titleEl.textContent = path ? "未找到文档" : "暂无文档";
           if (bodyEl) {
+            bodyEl.classList.remove("is-html");
             bodyEl.innerHTML = path
               ? '<p class="c-docs__empty">该文档暂不可用。</p>'
               : '<p class="c-docs__empty">未找到文档数据。请运行 <code>python3 scripts/gen-docs-manifest.py</code>，确保同目录有 <code>docs-data.js</code> 后再打开页面。</p>';
           }
+          renderDocsOutline([]);
           return;
         }
 
         if (pathEl) pathEl.textContent = getDocsDisplayPath(path);
         if (titleEl) titleEl.textContent = doc.title;
-        if (bodyEl) bodyEl.innerHTML = doc.bodyHtml;
+        if (bodyEl) {
+          if (doc.kind === "html") {
+            bodyEl.classList.add("is-html");
+            bodyEl.innerHTML =
+              '<iframe class="c-docs__frame" title="' +
+              escapeDocsHtml(doc.title) +
+              '" sandbox="allow-scripts allow-forms allow-popups allow-modals"></iframe>';
+            var frame = bodyEl.querySelector("iframe");
+            if (frame) {
+              frame.srcdoc = doc.rawHtml || "<p>空 HTML</p>";
+            }
+            renderDocsOutline([]);
+          } else {
+            bodyEl.classList.remove("is-html");
+            bodyEl.innerHTML = doc.bodyHtml;
+            hydrateDocsHtmlPreviews(bodyEl);
+            renderDocsOutline(doc.outline || []);
+          }
+        }
       }
 
       initDocs();
