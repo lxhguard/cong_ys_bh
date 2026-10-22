@@ -158,11 +158,13 @@
       padding: 0 20px;
     }
 
-    .l-workspace.is-time {
+    .l-workspace.is-time,
+    .l-workspace.is-docs {
       grid-template-columns: minmax(0, var(--sheet));
     }
 
-    .l-workspace.is-time .c-toc {
+    .l-workspace.is-time .c-toc,
+    .l-workspace.is-docs .c-toc {
       display: none;
     }
 
@@ -214,6 +216,253 @@
       background: var(--paper);
       border: 1px solid rgba(28, 25, 22, 0.08);
       box-shadow: var(--shadow);
+    }
+
+    .c-docs {
+      --docs-sider: 268px;
+      display: grid;
+      grid-template-columns: var(--docs-sider) minmax(0, 1fr);
+      margin: 28px 0 56px;
+      min-height: min(72vh, 720px);
+      background: var(--paper);
+      border: 1px solid rgba(28, 25, 22, 0.08);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .c-docs__sider {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, #f4efe7 0%, #efe8de 100%);
+      padding: 20px 12px 28px;
+      overflow: auto;
+    }
+
+    .c-docs__sider-title {
+      margin: 0 10px 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(28, 25, 22, 0.08);
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+    }
+
+    .c-docs__list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .c-docs__list .c-docs__list {
+      margin: 2px 0 6px;
+      padding-left: 12px;
+      border-left: 1px solid rgba(28, 25, 22, 0.08);
+      margin-left: 14px;
+    }
+
+    .c-docs__folder:not(.is-open) > .c-docs__list {
+      display: none;
+    }
+
+    .c-docs__folder > .c-docs__row {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .c-docs__row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      margin: 2px 0;
+      padding: 8px 10px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13.5px;
+      line-height: 1.35;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .c-docs__row:hover {
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    .c-docs__row:focus {
+      outline: none;
+    }
+
+    .c-docs__row:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+
+    .c-docs__row.is-active {
+      background: #fff;
+      color: var(--accent);
+      font-weight: 600;
+      box-shadow:
+        inset 3px 0 0 var(--accent),
+        0 1px 0 rgba(28, 25, 22, 0.04);
+    }
+
+    .c-docs__chevron {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      flex: none;
+      color: var(--faint);
+      opacity: 0.85;
+      transition: transform 0.18s ease;
+    }
+
+    .c-docs__folder:not(.is-open) > .c-docs__row .c-docs__chevron {
+      transform: rotate(-90deg);
+    }
+
+    .c-docs__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      flex: none;
+      opacity: 0.95;
+    }
+
+    .c-docs__icon svg {
+      display: block;
+      width: 16px;
+      height: 16px;
+    }
+
+    .c-docs__label {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .c-docs__spacer {
+      width: 14px;
+      flex: none;
+    }
+
+    .c-docs__article {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      background:
+        radial-gradient(1200px 280px at 0% 0%, rgba(163, 59, 36, 0.05), transparent 55%),
+        var(--paper);
+    }
+
+    .c-docs__article-head {
+      padding: 32px 44px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .c-docs__article-path {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 0 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(28, 25, 22, 0.04);
+      color: var(--faint);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.02em;
+    }
+
+    .c-docs__article-title {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1.25;
+    }
+
+    .c-docs__article-body {
+      flex: 1;
+      padding: 28px 44px 56px;
+      color: var(--ink);
+      font-size: 15.5px;
+      line-height: 1.85;
+    }
+
+    .c-docs__article-body > *:first-child {
+      margin-top: 0;
+    }
+
+    .c-docs__article-body h1,
+    .c-docs__article-body h2,
+    .c-docs__article-body h3 {
+      margin: 1.35em 0 0.55em;
+      font-family: var(--serif);
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .c-docs__article-body h1 { font-size: 22px; }
+    .c-docs__article-body h2 {
+      font-size: 18px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(28, 25, 22, 0.08);
+    }
+    .c-docs__article-body h3 { font-size: 16px; }
+
+    .c-docs__article-body p {
+      margin: 0 0 14px;
+      color: rgba(28, 25, 22, 0.88);
+    }
+
+    .c-docs__article-body code {
+      font-family: var(--mono);
+      font-size: 0.88em;
+      padding: 0.12em 0.4em;
+      background: rgba(28, 25, 22, 0.06);
+      border-radius: 4px;
+    }
+
+    .c-docs__empty {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    @media (max-width: 800px) {
+      .c-docs {
+        grid-template-columns: 1fr;
+        min-height: 0;
+      }
+
+      .c-docs__sider {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        max-height: 280px;
+      }
+
+      .c-docs__article-head,
+      .c-docs__article-body {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .c-docs__article-title {
+        font-size: 24px;
+      }
     }
 
     .c-timeline__note {
@@ -2223,7 +2472,8 @@
         background: transparent;
       }
 
-      .l-workspace.is-time .c-toc {
+      .l-workspace.is-time .c-toc,
+      .l-workspace.is-docs .c-toc {
         display: none;
       }
 
@@ -2256,7 +2506,7 @@
 
     @media print {
       body { background: #fff; }
-      .c-topbar, .c-footer, .c-toc, .c-timeline, .c-demo-shell { display: none !important; }
+      .c-topbar, .c-footer, .c-toc, .c-timeline, .c-docs, .c-demo-shell { display: none !important; }
       .l-workspace {
         display: block;
         max-width: none;
@@ -5495,6 +5745,7 @@
         <nav class="c-topbar__tabs" aria-label="页面切换">
           <button class="c-topbar__tab is-active js-tab" type="button" data-tab="resume">简历</button>
           <button class="c-topbar__tab js-tab" type="button" data-tab="time">工作时间线</button>
+          <button class="c-topbar__tab js-tab" type="button" data-tab="docs">学习</button>
         </nav>
         <a class="c-topbar__print" href="./jianli.pdf" download="刘鑫海_前端P6_5年经验_17729500571.pdf">导出 PDF</a>
       </div>
@@ -6285,6 +6536,22 @@
         </ol>
       </li>
     </ol>
+  </div>
+
+  <div class="c-docs js-view" id="view-docs" data-view="docs" hidden>
+    <aside class="c-docs__sider" aria-label="学习目录">
+      <p class="c-docs__sider-title">目录</p>
+      <ul class="c-docs__list js-docs-tree" role="tree"></ul>
+    </aside>
+    <article class="c-docs__article" aria-live="polite">
+      <header class="c-docs__article-head">
+        <p class="c-docs__article-path js-docs-path"></p>
+        <h1 class="c-docs__article-title js-docs-title">加载中…</h1>
+      </header>
+      <div class="c-docs__article-body js-docs-body">
+        <p class="c-docs__empty">正在加载文档目录…</p>
+      </div>
+    </article>
   </div>
     </div>
   </div>
@@ -9145,6 +9412,7 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
     </div>
   </div>
 
+  <script src="./docs-data.js"></script>
   <script>
     (function () {
       var workspace = document.querySelector(".js-workspace");
@@ -9162,8 +9430,225 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
       var currentTab = "resume";
       var TAB_HASH = {
         resume: "resume",
-        time: "time"
+        time: "time",
+        docs: "docs"
       };
+
+      // GitHub Pages / file://：浏览器不能列目录。
+      // 优先用 docs-data.js（脚本内嵌，双击本地 HTML 也能读）；其次 fetch docs-manifest.json。
+      var DOCS = {};
+      var DOC_CONTENTS = {};
+      var currentDocsPath = "";
+      // 物理目录仍是 markdown/，侧栏只平铺其下内容，不展示 markdown 这一层
+      var DOC_ROOT_NAME = "markdown";
+      var DOCS_ICON_CHEVRON = '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M4.7 6.3a.75.75 0 0 1 1.06 0L8 8.54l2.24-2.24a.75.75 0 1 1 1.06 1.06l-2.77 2.77a.75.75 0 0 1-1.06 0L4.7 7.36a.75.75 0 0 1 0-1.06Z"/></svg>';
+      var DOCS_ICON_FOLDER = '<svg viewBox="0 0 16 16" fill="none"><path d="M1.5 3.75A1.25 1.25 0 0 1 2.75 2.5h3.05l1.05 1.2h6.45A1.25 1.25 0 0 1 14.5 4.95v7.3A1.25 1.25 0 0 1 13.25 13.5H2.75A1.25 1.25 0 0 1 1.5 12.25V3.75Z" fill="#c4a574"/><path d="M1.5 6.4h13v5.85c0 .69-.56 1.25-1.25 1.25H2.75c-.69 0-1.25-.56-1.25-1.25V6.4Z" fill="#d8b88a"/></svg>';
+      var DOCS_ICON_MD = '<svg viewBox="0 0 16 16" fill="none"><rect x="2.2" y="1.8" width="11.6" height="12.4" rx="2" fill="#a33b24"/><path d="M4.4 10.6 5.55 5.6h1l-.7 3.05h.04L7.15 5.6h.95L6.85 10.6H5.8l.75-3.2h-.04L5.4 10.6H4.4Zm4.55 0V5.6h2.2c.48 0 .84.1 1.06.33.23.22.34.53.34.93 0 .3-.07.55-.22.75-.14.2-.35.33-.62.39v.04c.34.05.6.2.78.43.19.23.28.52.28.87 0 .43-.13.76-.4 1-.26.25-.64.37-1.14.37H8.95Zm.95-2.9h1.05c.24 0 .42-.06.54-.18.12-.12.18-.29.18-.5 0-.23-.06-.4-.19-.51-.12-.12-.3-.17-.55-.17H9.9v1.36Zm0 2.1h1.18c.28 0 .49-.06.63-.2.15-.13.22-.32.22-.57 0-.25-.08-.43-.23-.56-.15-.13-.36-.2-.64-.2H9.9v1.53Z" fill="#fff7f2"/></svg>';
+
+      function escapeDocsHtml(text) {
+        return String(text)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function parseDocsMarkdown(source) {
+        var lines = String(source || "").replace(/\r\n/g, "\n").split("\n");
+        var title = "";
+        var body = [];
+        lines.forEach(function (line) {
+          var heading = line.match(/^(#{1,3})\s+(.+)\s*$/);
+          if (heading) {
+            var level = heading[1].length;
+            var text = escapeDocsHtml(heading[2]);
+            if (level === 1 && !title) {
+              title = heading[2];
+              return;
+            }
+            body.push("<h" + level + ">" + text + "</h" + level + ">");
+            return;
+          }
+          if (!line.trim()) return;
+          body.push("<p>" + escapeDocsHtml(line) + "</p>");
+        });
+        return {
+          title: title || "文档",
+          bodyHtml: body.length ? body.join("") : '<p class="c-docs__empty">（空文档）</p>'
+        };
+      }
+
+      function getDocsDisplayPath(path) {
+        var parts = String(path || "").split("/").filter(Boolean);
+        if (parts[0] === DOC_ROOT_NAME) {
+          parts = parts.slice(1);
+        }
+        return parts.join("/");
+      }
+
+      function buildDocsTree(paths) {
+        var root = { name: "", children: {}, files: [] };
+        paths.forEach(function (path) {
+          var parts = String(path).split("/").filter(Boolean);
+          // 跳过顶层 markdown/，侧栏直接从子目录/文件开始
+          if (parts[0] === DOC_ROOT_NAME) {
+            parts = parts.slice(1);
+          }
+          if (!parts.length) return;
+          var node = root;
+          var i;
+          for (i = 0; i < parts.length - 1; i += 1) {
+            var folderName = parts[i];
+            if (!node.children[folderName]) {
+              node.children[folderName] = { name: folderName, children: {}, files: [] };
+            }
+            node = node.children[folderName];
+          }
+          node.files.push({
+            name: parts[parts.length - 1],
+            path: path
+          });
+        });
+        return root;
+      }
+
+      function renderDocsFolder(node) {
+        var html = "";
+        Object.keys(node.children).sort().forEach(function (name) {
+          var child = node.children[name];
+          html +=
+            '<li class="c-docs__folder is-open" role="treeitem" aria-expanded="true">' +
+            '<button class="c-docs__row js-docs-toggle" type="button" aria-label="展开或收起 ' + escapeDocsHtml(name) + '">' +
+            '<span class="c-docs__chevron" aria-hidden="true">' + DOCS_ICON_CHEVRON + "</span>" +
+            '<span class="c-docs__icon" aria-hidden="true">' + DOCS_ICON_FOLDER + "</span>" +
+            '<span class="c-docs__label">' + escapeDocsHtml(name) + "</span>" +
+            "</button>" +
+            '<ul class="c-docs__list" role="group">' +
+            renderDocsFolder(child) +
+            "</ul>" +
+            "</li>";
+        });
+        node.files
+          .slice()
+          .sort(function (a, b) {
+            return a.name.localeCompare(b.name);
+          })
+          .forEach(function (file) {
+            var label = String(file.name || "").replace(/\.md$/i, "");
+            html +=
+              '<li class="c-docs__file" role="treeitem">' +
+              '<button class="c-docs__row js-docs-file" type="button" data-doc="' + escapeDocsHtml(file.path) + '">' +
+              '<span class="c-docs__spacer" aria-hidden="true"></span>' +
+              '<span class="c-docs__icon" aria-hidden="true">' + DOCS_ICON_MD + "</span>" +
+              '<span class="c-docs__label">' + escapeDocsHtml(label) + "</span>" +
+              "</button>" +
+              "</li>";
+          });
+        return html;
+      }
+
+      function bindDocsTreeEvents(treeEl) {
+        Array.prototype.slice.call(treeEl.querySelectorAll(".js-docs-toggle")).forEach(function (button) {
+          button.addEventListener("click", function () {
+            var folder = button.closest(".c-docs__folder");
+            if (!folder) return;
+            var isOpen = folder.classList.toggle("is-open");
+            folder.setAttribute("aria-expanded", isOpen ? "true" : "false");
+          });
+        });
+        Array.prototype.slice.call(treeEl.querySelectorAll(".js-docs-file")).forEach(function (button) {
+          button.addEventListener("click", function () {
+            setDocsFile(button.getAttribute("data-doc"));
+          });
+        });
+      }
+
+      function placeholderDocFromPath(path) {
+        var name = String(path).split("/").pop() || path;
+        return {
+          title: name.replace(/\.md$/i, "") || name,
+          bodyHtml: '<p class="c-docs__empty">文档加载中…</p>'
+        };
+      }
+
+      function applyDocSource(path, text) {
+        DOCS[path] = parseDocsMarkdown(text);
+        if (currentDocsPath === path) {
+          setDocsFile(path);
+        }
+      }
+
+      function loadDocsByPaths(paths) {
+        var treeEl = document.querySelector(".js-docs-tree");
+        if (!treeEl) return;
+
+        DOCS = {};
+        paths.forEach(function (path) {
+          if (DOC_CONTENTS[path] != null) {
+            DOCS[path] = parseDocsMarkdown(DOC_CONTENTS[path]);
+          } else {
+            DOCS[path] = placeholderDocFromPath(path);
+          }
+        });
+
+        treeEl.innerHTML = renderDocsFolder(buildDocsTree(paths));
+        bindDocsTreeEvents(treeEl);
+
+        if (!paths.length) {
+          setDocsFile("");
+          return;
+        }
+
+        setDocsFile(paths[0]);
+
+        paths.forEach(function (path) {
+          if (DOC_CONTENTS[path] != null) return;
+
+          // 中文路径需 encodeURI；file:// 下 fetch 常失败，已有内嵌正文则跳过
+          fetch(encodeURI(path))
+            .then(function (res) {
+              if (!res.ok) throw new Error("docs fetch failed");
+              return res.text();
+            })
+            .then(function (text) {
+              applyDocSource(path, text);
+            })
+            .catch(function () {
+              DOCS[path] = {
+                title: placeholderDocFromPath(path).title,
+                bodyHtml: '<p class="c-docs__empty">无法读取该文件。请先运行 <code>python3 scripts/gen-docs-manifest.py</code> 生成 docs-data.js。</p>'
+              };
+              if (currentDocsPath === path) {
+                setDocsFile(path);
+              }
+            });
+        });
+      }
+
+      function initDocsFromBundle(data) {
+        var files = data && Array.isArray(data.files) ? data.files.filter(Boolean) : [];
+        DOC_CONTENTS = data && data.contents && typeof data.contents === "object" ? data.contents : {};
+        loadDocsByPaths(files);
+      }
+
+      function initDocs() {
+        if (window.__DOCS_DATA__ && Array.isArray(window.__DOCS_DATA__.files)) {
+          initDocsFromBundle(window.__DOCS_DATA__);
+          return;
+        }
+
+        fetch("docs-manifest.json", { cache: "no-cache" })
+          .then(function (res) {
+            if (!res.ok) throw new Error("manifest fetch failed");
+            return res.json();
+          })
+          .then(function (data) {
+            initDocsFromBundle(data || {});
+          })
+          .catch(function () {
+            loadDocsByPaths([]);
+          });
+      }
 
       function getHashId() {
         return (location.hash || "").replace(/^#/, "");
@@ -9193,6 +9678,7 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
         });
         if (workspace) {
           workspace.classList.toggle("is-time", tab === "time");
+          workspace.classList.toggle("is-docs", tab === "docs");
         }
         if (opts.syncHash !== false) {
           syncTabHash(tab);
@@ -9209,6 +9695,11 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
           window.scrollTo({ top: 0 });
           return;
         }
+        if (hash === TAB_HASH.docs) {
+          setTab("docs", { syncHash: false });
+          window.scrollTo({ top: 0 });
+          return;
+        }
         setTab("resume", { syncHash: false });
         if (!hash || hash === TAB_HASH.resume || hash === "top") return;
         var section = document.getElementById(hash);
@@ -9219,6 +9710,42 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
           syncActiveToc();
         }, 0);
       }
+
+      function setDocsFile(path) {
+        currentDocsPath = path || "";
+        var doc = path ? DOCS[path] : null;
+        var pathEl = document.querySelector(".js-docs-path");
+        var titleEl = document.querySelector(".js-docs-title");
+        var bodyEl = document.querySelector(".js-docs-body");
+        var fileButtons = Array.prototype.slice.call(document.querySelectorAll(".js-docs-file"));
+
+        fileButtons.forEach(function (button) {
+          var isActive = !!path && button.getAttribute("data-doc") === path;
+          button.classList.toggle("is-active", isActive);
+          if (isActive) {
+            button.setAttribute("aria-current", "page");
+          } else {
+            button.removeAttribute("aria-current");
+          }
+        });
+
+        if (!doc) {
+          if (pathEl) pathEl.textContent = path || "";
+          if (titleEl) titleEl.textContent = path ? "未找到文档" : "暂无文档";
+          if (bodyEl) {
+            bodyEl.innerHTML = path
+              ? '<p class="c-docs__empty">该文档暂不可用。</p>'
+              : '<p class="c-docs__empty">未找到文档数据。请运行 <code>python3 scripts/gen-docs-manifest.py</code>，确保同目录有 <code>docs-data.js</code> 后再打开页面。</p>';
+          }
+          return;
+        }
+
+        if (pathEl) pathEl.textContent = getDocsDisplayPath(path);
+        if (titleEl) titleEl.textContent = doc.title;
+        if (bodyEl) bodyEl.innerHTML = doc.bodyHtml;
+      }
+
+      initDocs();
 
       var tocLocked = false;
       var tocLockTimer = null;
