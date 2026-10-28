@@ -265,14 +265,20 @@
       border-right: 1px solid var(--line);
       background:
         linear-gradient(180deg, #f4efe7 0%, #efe8de 100%);
-      padding: 20px 12px 28px;
-      overflow: auto;
+      padding: 0;
+      overflow: hidden;
     }
 
     .c-docs__sider-title {
-      margin: 0 10px 14px;
-      padding-bottom: 10px;
+      flex: none;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      margin: 0;
+      padding: 20px 22px 10px;
       border-bottom: 1px solid rgba(28, 25, 22, 0.08);
+      background:
+        linear-gradient(180deg, #f4efe7 0%, #f2ebe2 100%);
       color: var(--muted);
       font-family: var(--serif);
       font-size: 13px;
@@ -284,6 +290,14 @@
       margin: 0;
       padding: 0;
       list-style: none;
+    }
+
+    /* 目录标题吸顶；文件树单独滚动 */
+    .c-docs__sider > .c-docs__list {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      padding: 8px 12px 28px;
     }
 
     .c-docs__list .c-docs__list {
@@ -414,10 +428,12 @@
     }
 
     .c-docs__outline {
+      display: flex;
+      flex-direction: column;
       min-height: 0;
       height: 100%;
-      overflow: auto;
-      padding: 18px 10px 28px 14px;
+      overflow: hidden;
+      padding: 0;
       border-right: 1px solid var(--line);
       background: rgba(255, 255, 255, 0.35);
     }
@@ -427,7 +443,13 @@
     }
 
     .c-docs__outline-title {
-      margin: 0 6px 10px;
+      flex: none;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      margin: 0;
+      padding: 18px 16px 10px 14px;
+      background: rgba(255, 255, 255, 0.92);
       color: var(--faint);
       font-size: 11px;
       font-weight: 600;
@@ -435,10 +457,13 @@
     }
 
     .c-docs__outline-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
+      flex: 1 1 auto;
       min-width: 0;
+      min-height: 0;
+      overflow: auto;
+      margin: 0;
+      padding: 0 10px 28px 14px;
+      list-style: none;
     }
 
     .c-docs__outline-list > li {
