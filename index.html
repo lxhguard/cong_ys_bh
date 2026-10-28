@@ -6251,7 +6251,7 @@
 <body class="l-page" id="top">
   <header class="c-topbar">
     <div class="c-topbar__inner">
-      <a class="c-topbar__brand" href="#top">刘鑫海</a>
+      <a class="c-topbar__brand" href="#resume">刘鑫海</a>
       <div class="c-topbar__actions">
         <nav class="c-topbar__tabs" aria-label="页面切换">
           <button class="c-topbar__tab is-active js-tab" type="button" data-tab="resume">简历</button>
@@ -11119,13 +11119,21 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
         }
 
         setTab("resume", { syncHash: false });
-        // #top / #resume / 空 hash：明确滚回顶部（避免残留滚动位置看到下方误显的面板）
+        // #top / 空 hash 与 #resume 等价：统一成 #resume，滚动到顶，避免 body#top 与 docs 异步 scrollIntoView 抢滚动
         if (!hash || hash === "top" || hash === TAB_HASH.resume) {
+          if (hash !== TAB_HASH.resume && history.replaceState) {
+            history.replaceState(null, "", "#" + TAB_HASH.resume);
+          } else if (hash !== TAB_HASH.resume) {
+            location.hash = TAB_HASH.resume;
+          }
           window.scrollTo({ top: 0 });
           return;
         }
         var section = document.getElementById(hash);
         if (!section) {
+          if (history.replaceState) {
+            history.replaceState(null, "", "#" + TAB_HASH.resume);
+          }
           window.scrollTo({ top: 0 });
           return;
         }
@@ -11158,7 +11166,8 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
                 folder.parentElement &&
                 folder.parentElement.closest(".c-docs__folder");
             }
-            if (typeof button.scrollIntoView === "function") {
+            // 仅在学习 tab 可见时滚动；简历/时间线下 scrollIntoView 会把整页拽到下方隐藏的 docs 区
+            if (currentTab === "docs" && typeof button.scrollIntoView === "function") {
               button.scrollIntoView({ block: "nearest" });
             }
           } else {
