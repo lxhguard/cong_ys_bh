@@ -218,6 +218,15 @@
       min-width: 0;
     }
 
+    /*
+      关键：.c-docs { display: grid } 等作者样式会盖过 UA 的 [hidden]{display:none}，
+      导致非激活 tab 视图仍可见（简历激活时学习区叠在下方）。
+      所有顶栏 tab 面板统一用 .js-view；以后加 tab 只要带这个 class 就不会再踩坑。
+    */
+    .js-view[hidden] {
+      display: none !important;
+    }
+
     .l-sheet {
       max-width: none;
       margin: 28px 0 56px;
@@ -9936,11 +9945,60 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
         return item.section;
       });
       var currentTab = "resume";
-      var TAB_HASH = {
-        resume: "resume",
-        time: "time",
-        docs: "docs"
+      /*
+        顶栏 tab 注册表。新增 tab 时：
+        1) HTML：.js-tab[data-tab] + .js-view[data-view][hidden]
+        2) 这里加一项（hash / workspaceClass / footerClass / nestedHash）
+        路由与显隐都走这张表，避免散落 if/else。
+      */
+      var TABS = {
+        resume: {
+          hash: "resume",
+          aliases: ["", "top", "resume"]
+        },
+        time: {
+          hash: "time",
+          workspaceClass: "is-time"
+        },
+        docs: {
+          hash: "docs",
+          workspaceClass: "is-docs",
+          footerClass: "is-docs",
+          nestedHash: true
+        }
       };
+      var DEFAULT_TAB = "resume";
+      var TAB_HASH = Object.keys(TABS).reduce(function (acc, id) {
+        acc[id] = TABS[id].hash;
+        return acc;
+      }, {});
+      var WORKSPACE_MODE_CLASSES = Object.keys(TABS)
+        .map(function (id) {
+          return TABS[id].workspaceClass;
+        })
+        .filter(Boolean);
+      var FOOTER_MODE_CLASSES = Object.keys(TABS)
+        .map(function (id) {
+          return TABS[id].footerClass;
+        })
+        .filter(Boolean);
+
+      function resolveTabFromHash(hash) {
+        var id;
+        var meta;
+        var raw = String(hash || "");
+        for (id in TABS) {
+          if (!Object.prototype.hasOwnProperty.call(TABS, id)) continue;
+          meta = TABS[id];
+          if (meta.nestedHash && (raw === meta.hash || raw.indexOf(meta.hash + "/") === 0)) {
+            return id;
+          }
+          if (raw === meta.hash) return id;
+          if (meta.aliases && meta.aliases.indexOf(raw) !== -1) return id;
+        }
+        // 简历内锚点（#experience 等）仍落在 resume
+        return DEFAULT_TAB;
+      }
 
       // GitHub Pages / file://：浏览器不能列目录。
       // 优先用 docs-data.js（脚本内嵌，双击本地 HTML 也能读）；其次 fetch docs-manifest.json。
@@ -10736,7 +10794,10 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
       }
 
       function isDocsHash(hash) {
-        return hash === TAB_HASH.docs || hash.indexOf("docs/") === 0;
+        var meta = TABS.docs;
+        if (!meta) return false;
+        var raw = String(hash || "");
+        return raw === meta.hash || (meta.nestedHash && raw.indexOf(meta.hash + "/") === 0);
       }
 
       function bindDocsTreeEvents(treeEl) {
@@ -10999,43 +11060,45 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
 
       function setTab(tab, options) {
         var opts = options || {};
-        currentTab = tab;
+        var meta = TABS[tab] || TABS[DEFAULT_TAB];
+        var nextTab = TABS[tab] ? tab : DEFAULT_TAB;
+        currentTab = nextTab;
         tabButtons.forEach(function (button) {
-          var isActive = button.getAttribute("data-tab") === tab;
+          var isActive = button.getAttribute("data-tab") === nextTab;
           button.classList.toggle("is-active", isActive);
           button.setAttribute("aria-selected", isActive ? "true" : "false");
         });
         views.forEach(function (view) {
-          var isActive = view.getAttribute("data-view") === tab;
+          var isActive = view.getAttribute("data-view") === nextTab;
           view.hidden = !isActive;
         });
         if (workspace) {
-          workspace.classList.toggle("is-time", tab === "time");
-          workspace.classList.toggle("is-docs", tab === "docs");
+          WORKSPACE_MODE_CLASSES.forEach(function (cls) {
+            workspace.classList.toggle(cls, meta.workspaceClass === cls);
+          });
         }
         var footer = document.querySelector(".js-footer");
         if (footer) {
-          footer.classList.toggle("is-docs", tab === "docs");
+          FOOTER_MODE_CLASSES.forEach(function (cls) {
+            footer.classList.toggle(cls, meta.footerClass === cls);
+          });
         }
         if (opts.syncHash !== false) {
-          syncTabHash(tab);
+          syncTabHash(nextTab);
         }
-        if (tab === "resume") {
+        if (nextTab === "resume") {
           syncActiveToc();
         }
-        if (tab === "docs") {
+        if (nextTab === "docs") {
           window.setTimeout(syncActiveDocsOutline, 0);
         }
       }
 
       function applyHashRoute() {
         var hash = getHashId();
-        if (hash === TAB_HASH.time) {
-          setTab("time", { syncHash: false });
-          window.scrollTo({ top: 0 });
-          return;
-        }
-        if (isDocsHash(hash)) {
+        var tab = resolveTabFromHash(hash);
+
+        if (tab === "docs") {
           var docsPath = getDocsPathFromHash();
           setTab("docs", { syncHash: false });
           if (docsPath) {
@@ -11048,10 +11111,24 @@ navigator.modelContext.clearContext();              // 清空全部</code></pre>
           window.scrollTo({ top: 0 });
           return;
         }
+
+        if (tab !== "resume") {
+          setTab(tab, { syncHash: false });
+          window.scrollTo({ top: 0 });
+          return;
+        }
+
         setTab("resume", { syncHash: false });
-        if (!hash || hash === TAB_HASH.resume || hash === "top") return;
+        // #top / #resume / 空 hash：明确滚回顶部（避免残留滚动位置看到下方误显的面板）
+        if (!hash || hash === "top" || hash === TAB_HASH.resume) {
+          window.scrollTo({ top: 0 });
+          return;
+        }
         var section = document.getElementById(hash);
-        if (!section) return;
+        if (!section) {
+          window.scrollTo({ top: 0 });
+          return;
+        }
         window.setTimeout(function () {
           var top = section.getBoundingClientRect().top + window.scrollY - TOC_SCROLL_OFFSET;
           window.scrollTo({ top: Math.max(0, top) });
