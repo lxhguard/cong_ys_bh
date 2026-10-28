@@ -529,6 +529,10 @@
 
     .c-docs__article-head {
       flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
       padding: 8px;
       border-bottom: 1px solid var(--line);
     }
@@ -536,7 +540,9 @@
     .c-docs__article-path {
       display: inline-flex;
       align-items: center;
-      margin: 8px 0 0;
+      flex: none;
+      max-width: 48%;
+      margin: 0;
       padding: 3px 8px;
       border-radius: 999px;
       background: rgba(28, 25, 22, 0.04);
@@ -544,10 +550,15 @@
       font-family: var(--mono);
       font-size: 11px;
       letter-spacing: 0.02em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .c-docs__article-title {
       margin: 0;
+      min-width: 0;
+      flex: 1 1 auto;
       color: var(--ink);
       font-family: var(--serif);
       font-size: 30px;
