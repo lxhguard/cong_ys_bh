@@ -1,0 +1,27 @@
+---
+description: cong_ys_bh/markdown 代码块必须带正确语言类型，改完后 commit 并 git push
+globs: markdown/**/*.md
+alwaysApply: true
+---
+
+# markdown 代码块类型（强制）
+
+凡是改动或新增 `markdown/` 下的 `.md`，**必须先检查所有代码块开标签**，补上正确类型，再 `git commit` + `git push`。
+
+## 类型约定
+
+| 内容 | 开标签 |
+| --- | --- |
+| JavaScript | \`\`\`js |
+| HTML 可视化卡片 / 可渲染片段 | \`\`\`html type="renderer" |
+| HTTP 头 / 协议片段 | \`\`\`http |
+| 纯文本、URL 示例等 | \`\`\`text |
+| CSS | \`\`\`css |
+| HTML 源码（仅展示不渲染） | \`\`\`html |
+
+## 硬性要求
+
+- **禁止**裸开标签 \`\`\`（无语言）
+- 闭合标签保持 \`\`\` 即可
+- 可视化图用 \`\`\`html type="renderer"\`，与现有文档一致
+- 改完 markdown 后：commit → `git push`（若远端有 Actions 生成的 docs 提交，先 `git pull --rebase` 再 push）

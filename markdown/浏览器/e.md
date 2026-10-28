@@ -39,7 +39,7 @@ HSTS（HTTP 严格传输安全）是**浏览器侧强制 HTTPS** 的机制，专
 
 **一句话原理**：服务器在响应头声明一段时间只许走 HTTPS，浏览器记住后，即便用户输入 `http://` 或点了 http 链接，也会**先升级成 HTTPS 再发请求**，且不允许跳过证书警告。
 
-```
+```http
 Strict-Transport-Security: max-age=31536000; includeSubDomains
 ```
 
@@ -62,13 +62,13 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains
 
 **例子**
 
-```
+```text
 百度.com/search?q=北京 天气
 ```
 
 浏览器自动转成（地址栏可显示原文，实际请求的是编码后）：
 
-```
+```text
 https://xn--wxtr44c.com/search?q=%E5%8C%97%E4%BA%AC%20%E5%A4%A9%E6%B0%94
 ```
 
