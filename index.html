@@ -170,13 +170,17 @@
       grid-template-columns: minmax(0, var(--sheet));
     }
 
-    /* 学习页：贴满顶栏下方视口，底部不留空白条 */
+    /* 学习页：贴满顶栏下方视口，底部不留空白条；整页不滚，内部各自滚 */
     .l-workspace.is-docs {
       grid-template-columns: minmax(0, 1fr);
       max-width: none;
       width: 100%;
       padding: 0;
       align-items: stretch;
+    }
+
+    body:has(.l-workspace.is-docs) {
+      overflow: hidden;
     }
 
     .l-workspace.is-time .c-toc,
