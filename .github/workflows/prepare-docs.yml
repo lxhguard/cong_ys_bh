@@ -1,0 +1,45 @@
+# markdown/ 有改动时，自动重新生成 docs-manifest.json + docs-data.js 并推回 main
+# index.html 通过 docs-data.js（优先）或 docs-manifest.json 读到最新文档列表/正文
+name: Prepare docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "markdown/**"
+      - "scripts/gen-docs-manifest.py"
+      - "scripts/prepare-docs.sh"
+      - ".github/workflows/prepare-docs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prepare-docs
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # 让后续 push 能更新触发本次 workflow 的同一分支
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate docs bundle
+        run: python3 scripts/gen-docs-manifest.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs-manifest.json docs-data.js
+          if git diff --staged --quiet; then
+            echo "docs bundle unchanged"
+            exit 0
+          fi
+          git commit -m "chore: regenerate docs-data from markdown"
+          git push
