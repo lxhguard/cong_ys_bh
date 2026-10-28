@@ -67,7 +67,7 @@ f();           // undefined ← 调用形式变成裸调用 f()，对象没了
 
 **题 1：箭头函数在方法里，指向创建时的环境**
 
-```
+```js
 function M() {
   const a = 1;
   let obj = {
@@ -83,7 +83,7 @@ M(); // undefined window
 
 **题 2：普通函数 vs 箭头函数，同一个对象两个答案**
 
-```
+```js
 a = 1;
 obj = {
   a: 2,
@@ -98,7 +98,7 @@ obj.sayA(); // 1 window
 
 **题 3：函数里调用指向 window（注意全局变量污染）**
 
-```
+```js
 a = 300;
 function A() {
   a = 100;                // 没写 var/let → 改的是全局 window.a
@@ -115,7 +115,7 @@ B(); // 100
 
 **题 4：隐式丢失——方法拆出来就丢 this**
 
-```
+```js
 this.x = 9;
 var module = { x: 81, getX: function () { return this.x; } };
 var retrieveX = module.getX;   // 方法被"拆下来"了
@@ -126,7 +126,7 @@ boundGetX();       // 81  ← bind 显式绑定 → module.x
 
 **题 5：赋值表达式返回函数 → 裸调用**
 
-```
+```js
 function foo() { console.log(this.a); }
 var a = 2;
 var o = { a: 3, foo: foo };
@@ -137,7 +137,7 @@ o.foo();          // 3   ← obj.method() → this 是 o
 
 **题 6：let/const 不挂 window**
 
-```
+```js
 let a = 10;
 const b = 20;
 function foo() {
@@ -161,7 +161,7 @@ console.log(window.a); // undefined
 
 ## 5. 自测 3 题（30 秒内答出）
 
-```
+```js
 // ①
 const obj = { x: 1, fn: function () { return this.x; } };
 const f = obj.fn;
@@ -181,7 +181,7 @@ console.log(new C().x);  // ? → 3（new 覆盖 bind）
 
 下面这张「谁调用 this 指向谁」映射图，配合你的记忆口诀复习：
 
-```
+```html type="renderer"
 <html style="margin:0;padding:0;">
 <title>this指向映射图（谁调用指向谁）</title>
 <div style="width:100%;box-sizing:border-box;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#f4f6f9;padding:22px;border-radius:14px;">
