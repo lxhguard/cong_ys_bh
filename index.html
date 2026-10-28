@@ -531,8 +531,9 @@
       flex: none;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
       padding: 8px;
       border-bottom: 1px solid var(--line);
     }
@@ -541,7 +542,7 @@
       display: inline-flex;
       align-items: center;
       flex: none;
-      max-width: 48%;
+      max-width: 100%;
       margin: 0;
       padding: 3px 8px;
       border-radius: 999px;
@@ -558,7 +559,7 @@
     .c-docs__article-title {
       margin: 0;
       min-width: 0;
-      flex: 1 1 auto;
+      flex: 0 1 auto;
       color: var(--ink);
       font-family: var(--serif);
       font-size: 30px;
