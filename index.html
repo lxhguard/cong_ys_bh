@@ -170,12 +170,12 @@
       grid-template-columns: minmax(0, var(--sheet));
     }
 
-    /* 学习页加宽，减少两侧留白（简历/时间线仍用 --sheet） */
+    /* 学习页：贴满顶栏下方视口，底部不留空白条 */
     .l-workspace.is-docs {
       grid-template-columns: minmax(0, 1fr);
-      max-width: 1440px;
+      max-width: none;
       width: 100%;
-      padding: 0 24px;
+      padding: 0;
       align-items: stretch;
     }
 
@@ -247,13 +247,14 @@
       --docs-sider: 280px;
       display: grid;
       grid-template-columns: var(--docs-sider) minmax(0, 1fr);
-      /* 固定视口高度：左侧目录/章节常驻，仅正文区域滚动 */
-      height: calc(100vh - 78px);
-      margin: 12px 0 24px;
-      min-height: 480px;
+      /* 固定视口高度：顶栏下贴满，底部不留空白；仅正文区域滚动 */
+      height: calc(100vh - 58px);
+      margin: 0;
+      min-height: 0;
       background: var(--paper);
-      border: 1px solid rgba(28, 25, 22, 0.08);
-      box-shadow: var(--shadow);
+      border: 0;
+      border-top: 1px solid rgba(28, 25, 22, 0.08);
+      box-shadow: none;
       overflow: hidden;
     }
 
@@ -950,7 +951,7 @@
       .c-docs {
         grid-template-columns: 1fr;
         grid-template-rows: minmax(180px, 32vh) minmax(0, 1fr);
-        height: calc(100vh - 70px);
+        height: calc(100vh - 58px);
         min-height: 0;
       }
 
