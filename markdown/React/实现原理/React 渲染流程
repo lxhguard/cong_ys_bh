@@ -1,0 +1,105 @@
+# React 渲染流程
+
+## 一句话总览
+
+React 渲染 = **Render 阶段（协调，可中断）+ Commit 阶段（提交，不可中断）**。Render 只构建新树、标记变更，**不碰真实 DOM**；Commit 才把变更落到真实 DOM。
+
+## 一、触发更新的四种方式
+
+| 触发方式 | 场景 |
+|---|---|
+| `createRoot(root).render()` | 首次渲染 |
+| `setState` / `dispatch` | 状态更新 |
+| `forceUpdate` | 强制重渲染（class） |
+| 父组件重渲染 | 子组件被动更新（props 变化） |
+
+## 二、Render 阶段（可中断）
+
+从 root fiber 开始**深度优先遍历** fiber 树，每个节点走 `beginWork → completeWork`：
+
+- **beginWork**：拿这次的 element 和上次的 current fiber 对比（这就是 diff），创建/复用 workInProgress fiber，判断是否需要更新（能 **bailout** 就跳过子树），需要变更的节点**打上 flags 标记**（Placement 插入 / Update 更新 / Deletion 删除）
+- **completeWork**：为 DOM 节点**准备属性**（还不挂载），并把子树里有变更的节点**向上收集成 effect 链表**
+- 产出：一棵**新的 workInProgress 树** + 一条全局 **effect 链表**
+
+关键：整个阶段在内存里跑，靠 **workLoop 时间切片**可中断、可被高优先级任务抢占（并发渲染的根基）——中断后下次从断点继续，不影响 UI。
+
+## 三、Commit 阶段（不可中断）
+
+拿到 effect 链表，**同步**执行三个子阶段：
+
+| 子阶段 | 做什么 |
+|---|---|
+| **before mutation** | `getSnapshotBeforeUpdate`（commit 前读旧 DOM） |
+| **mutation** | **真正操作 DOM**（插入/更新/删除）；`componentWillUnmount`、useLayoutEffect 的销毁 |
+| **layout** | `componentDidMount/Update`、`useLayoutEffect`（同步执行，此时可安全读 DOM） |
+
+收尾：
+- **双缓存切换**：`current = workInProgress`，新树转正
+- **调度 passive effects**：`useEffect` 不在这里跑，而是**异步调度到浏览器 paint 之后**执行
+
+> 为什么 render 可中断、commit 不可中断？commit 在操作真实 DOM，一旦中断，页面会处于"改了一半"的不一致状态；render 只是内存里算，随时能重来。
+
+## 四、关键词串讲（背下来）
+
+```
+createRoot → scheduleUpdateOnFiber → workLoopConcurrent
+→ beginWork / completeWork（render，可中断，产出 workInProgress + effect 链表）
+→ commitRoot → before mutation → mutation → layout（不可中断）
+→ passive effects（useEffect，paint 后）→ current 树切换
+```
+
+配套概念：**双缓存树**（current / workInProgress 复用节点）、**fiber 三指针**（child / sibling / return）、**flags**（副作用标记）。
+
+## 面试话术（1.5 分钟）
+
+> React 渲染分两个阶段。**Render 阶段**也叫协调：从根开始深度优先遍历 fiber 树，beginWork 拿新 element 和旧 current fiber 做 diff，为需要变更的节点打上 Placement/Update/Deletion 标记，completeWork 把变更收集成 effect 链表，最终产出一棵新的 workInProgress 树。这个阶段在内存里跑，通过时间切片可以中断，被高优先级任务抢占后从断点继续，所以 React 18 能支持并发渲染。**Commit 阶段**拿到 effect 链表后同步执行三个子阶段：before mutation 读旧 DOM、mutation 真正操作 DOM、layout 执行 componentDidMount 和 useLayoutEffect，然后做双缓存切换、异步调度 useEffect 到浏览器 paint 之后执行。**render 可中断、commit 不可中断**，因为 commit 在改真实 DOM，中断会造成 UI 不一致。这就是 React 渲染的主流程。
+
+流程图：
+
+```html type="renderer"
+<html style="margin:0;padding:0;">
+<title>React 渲染流程总览</title>
+<div style="width:100%;box-sizing:border-box;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#f4f6f9;padding:22px;border-radius:14px;">
+  <div style="font-size:18px;font-weight:700;color:#1f2933;margin-bottom:4px;">React 渲染流程</div>
+  <div style="font-size:13px;color:#6b7280;margin-bottom:16px;">Render 可中断（内存）· Commit 不可中断（操作真实 DOM）</div>
+
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+    <div style="background:#1f2933;color:#fff;border-radius:6px;padding:6px 10px;font-size:13px;font-weight:700;">触发更新</div>
+    <div style="color:#9ca3af;">→</div>
+    <div style="background:#e5e7eb;color:#374151;border-radius:6px;padding:6px 10px;font-size:13px;">setState / dispatch</div>
+    <div style="color:#9ca3af;">→</div>
+    <div style="background:#e5e7eb;color:#374151;border-radius:6px;padding:6px 10px;font-size:13px;">render() 首次</div>
+    <div style="color:#9ca3af;">→</div>
+    <div style="background:#e5e7eb;color:#374151;border-radius:6px;padding:6px 10px;font-size:13px;">forceUpdate / 父更新</div>
+  </div>
+
+  <div style="background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border-left:6px solid #3b82f6;">
+    <div style="font-size:14px;font-weight:700;color:#1d4ed8;margin-bottom:6px;">Render 阶段（可中断 ⏸｜内存中构建）</div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <div style="background:#dbeafe;color:#1d4ed8;border-radius:6px;padding:6px 10px;font-size:13px;">beginWork 对比 element + current fiber</div>
+      <div style="color:#9ca3af;">→</div>
+      <div style="background:#dbeafe;color:#1d4ed8;border-radius:6px;padding:6px 10px;font-size:13px;">diff 子节点 → 打 flags（插入/更新/删除）</div>
+      <div style="color:#9ca3af;">→</div>
+      <div style="background:#dbeafe;color:#1d4ed8;border-radius:6px;padding:6px 10px;font-size:13px;">completeWork 收集 effect 链表</div>
+    </div>
+    <div style="font-size:12px;color:#6b7280;margin-top:6px;">产出 workInProgress 树 + effect 链表 · 时间切片可中断/可抢占 · 不操作真实 DOM</div>
+  </div>
+
+  <div style="background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border-left:6px solid #e5484d;">
+    <div style="font-size:14px;font-weight:700;color:#b91c1c;margin-bottom:6px;">Commit 阶段（不可中断 🚫｜同步操作 DOM）</div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <div style="background:#fee2e2;color:#b91c1c;border-radius:6px;padding:6px 10px;font-size:13px;">before mutation<br><span style="font-weight:400;">getSnapshotBeforeUpdate</span></div>
+      <div style="color:#9ca3af;">→</div>
+      <div style="background:#fee2e2;color:#b91c1c;border-radius:6px;padding:6px 10px;font-size:13px;">mutation<br><span style="font-weight:400;">插入/更新/删除 DOM</span></div>
+      <div style="color:#9ca3af;">→</div>
+      <div style="background:#fee2e2;color:#b91c1c;border-radius:6px;padding:6px 10px;font-size:13px;">layout<br><span style="font-weight:400;">componentDidMount + useLayoutEffect</span></div>
+    </div>
+    <div style="font-size:12px;color:#6b7280;margin-top:6px;">双缓存切换 current = workInProgress → 调度 passive effects（useEffect 在 paint 后异步执行）</div>
+  </div>
+
+  <div style="margin-top:12px;background:#fffbeb;border-left:4px solid #d97706;border-radius:8px;padding:10px 14px;font-size:13px;color:#92400e;">
+    一句话：<b>Render 算（内存、可中断）→ Commit 改（DOM、不可中断）→ useEffect 等 paint 后</b>；fiber 三指针 child/sibling/return，flags 记变更。
+  </div>
+</div>
+</html>
+```
